@@ -18,4 +18,9 @@ public class PortfolioController {
     return "view";
   }
 
+  @GetMapping("/open-position")
+  public String openPosition() {
+    return "open-position";
+  }
+
 }

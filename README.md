@@ -31,16 +31,33 @@
         Scenarios
         ---------
 
-        Open Position: Buy Call Option
+        Feature: View Portfolio 
 
         Given a portfolio with
             BTO 1 AAPL 2020-10-16 125 C @ 6.40 on 2020-09-15-15-50
         When I click view portfolio
-        Then we can see:
+        Then I can see:
 
         Symbol | C/P | Qty | Expiration | Strike | Cost Each | Total Cost | Current Price | Value  | Gain/Loss | Percent |
         -------+-----+-----+------------+--------+-----------+------------+---------------+--------+-----------+---------+
-        AAPL   |  C  |   1 | Oct 16 20  | 125.00 |      6.40 |     640.00 |         6.35  | 635.00 |   ($5.00) | (8%)
+        AAPL   |  C  |   1 | Oct 16 20  | 125.00 |      6.40 |     640.00 |         6.35  | 635.00 |   ($5.00) |   (8%)  |
+
+
+        Feature: Open Position with a Buy Call Option
+        
+        Given an empty portfolio
+        When I click on the "Open Position" button
+        And I enter position information (AMD, etc.)
+        Then I can see the purchase information, without current price-related information
+
+        Symbol | C/P | Qty | Expiration | Strike | Cost Each | Total Cost | Current Price | Value  | Gain/Loss | Percent |
+        -------+-----+-----+------------+--------+-----------+------------+---------------+--------+-----------+---------+
+        AMD    |  C  |   1 | Oct 16 20  |  75.00 |      3.20 |     320.00 |          ??  |   ??    |        ?? |    ??   |
+
+
+        Feature: Update Current Price-related Information from Tradier API
+
+        Given...
 
     b. Put option sale:
         Symbol: AMD

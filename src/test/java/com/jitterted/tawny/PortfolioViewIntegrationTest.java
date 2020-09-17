@@ -5,11 +5,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import java.util.Collection;
 
 import static org.assertj.core.api.Assertions.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
@@ -22,7 +22,7 @@ public class PortfolioViewIntegrationTest {
 
   @Test
   public void givenPortfolioWithOpenPositionDisplaysPosition() throws Exception {
-    MvcResult mvcResult = mockMvc.perform(MockMvcRequestBuilders.get("/view"))
+    MvcResult mvcResult = mockMvc.perform(get("/view"))
                                  .andExpect(status().isOk())
                                  .andExpect(view().name("view"))
                                  .andExpect(model().attributeExists("positions"))
@@ -36,6 +36,18 @@ public class PortfolioViewIntegrationTest {
 
     assertThat(positions)
         .isNotEmpty();
+  }
+
+  @Test
+  public void openPositionPageShowsForm() throws Exception {
+    MvcResult mvcResult = mockMvc.perform(get("/open-position"))
+                                 .andExpect(status().isOk())
+                                 .andExpect(view().name("open-position"))
+                                 .andReturn();
+
+    assertThat(mvcResult.getResponse().getContentAsString())
+        .contains("<form");
+
   }
 
 }
