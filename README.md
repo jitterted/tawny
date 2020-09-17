@@ -38,9 +38,9 @@
         When I click view portfolio
         Then we can see:
 
-        Symbol | C/P | Qty | Expiration | Strike | Cost Each | Total Cost | Current Price | Value  | Gain/Loss
-        -------+-----+-----+------------+--------+-----------+------------+---------------+--------+----------
-        AAPL   |  C  |   1 | Oct 16 20  | 125.00 |      6.40 |     640.00 |         6.35  | 635.00 |   ($5.00)
+        Symbol | C/P | Qty | Expiration | Strike | Cost Each | Total Cost | Current Price | Value  | Gain/Loss | Percent |
+        -------+-----+-----+------------+--------+-----------+------------+---------------+--------+-----------+---------+
+        AAPL   |  C  |   1 | Oct 16 20  | 125.00 |      6.40 |     640.00 |         6.35  | 635.00 |   ($5.00) | (8%)
 
     b. Put option sale:
         Symbol: AMD

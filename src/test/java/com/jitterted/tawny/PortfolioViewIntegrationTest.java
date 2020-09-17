@@ -35,8 +35,7 @@ public class PortfolioViewIntegrationTest {
                  .get("positions");
 
     assertThat(positions)
-        .hasSize(1);
-
+        .isNotEmpty();
   }
 
 }
