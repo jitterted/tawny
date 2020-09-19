@@ -103,3 +103,7 @@
 * Broker API (optional)
 * Importing portfolio from spreadsheet/CSV
 * Mobile app/front-end (iOS) SCARY!!
+
+### UI Notes
+
+* Use date picker: https://github.com/duetds/date-picker
