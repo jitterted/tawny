@@ -10,12 +10,18 @@ import java.util.List;
 @Controller
 public class PortfolioController {
 
+  private PositionView view = new PositionView("", "", "", "", "", "", "", "", "", "", "");
+
+  public PortfolioController() {
+  }
+
+  public PortfolioController(PositionView view) {
+    this.view = view;
+  }
+
   @GetMapping("/view")
   public String viewPortfolio(Model model) {
-    model.addAttribute("positions",
-                       List.of(new PositionView(
-                           "AAPL", "C", "1", "Oct 16 2020", "125.00", "6.40", "640.00",
-                           "6.35", "635.00", "($5.00)", "(8%)")));
+    model.addAttribute("positions", List.of(view));
     return "view";
   }
 
@@ -25,7 +31,8 @@ public class PortfolioController {
   }
 
   @PostMapping("/open-position")
-  public String handleOpenPosition() {
+  public String handleOpenPosition(OpenPositionForm openPositionForm) {
+    view = PositionView.fromForm(openPositionForm);
     return "redirect:/view";
   }
 

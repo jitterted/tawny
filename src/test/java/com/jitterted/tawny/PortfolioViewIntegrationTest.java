@@ -57,12 +57,12 @@ public class PortfolioViewIntegrationTest {
   @Test
   public void postFormToOpenPositionShowsInformationOnView() throws Exception {
     MultiValueMap<String, String> formParams = new LinkedMultiValueMap<>();
-    formParams.add("symbol", "AMD");
+    formParams.add("underlyingSymbol", "AMD");
     formParams.add("type", "call");
     formParams.add("quantity", "1");
-    formParams.add("expiration", "2020-10-16");
-    formParams.add("strikePrice", "75");
-    formParams.add("unitCost", "5.70");
+    formParams.add("expiration", "2020-09-20T10:00:00.000-04:00");
+    formParams.add("strikePrice", "7500");
+    formParams.add("unitCost", "570");
 
     mockMvc.perform(post("/open-position")
                         .contentType(MediaType.APPLICATION_FORM_URLENCODED)
@@ -73,7 +73,7 @@ public class PortfolioViewIntegrationTest {
                                  .andReturn();
 
     assertThat(mvcResult.getResponse().getContentAsString())
-        .contains("AMD", "75", "5.70");
+        .contains("<td>AMD</td>", "7500", "570");
   }
 
 }

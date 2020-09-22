@@ -13,7 +13,9 @@ class PortfolioControllerTest {
 
   @Test
   public void givenOpenPositionViewReturnsPosition() throws Exception {
-    PortfolioController portfolioController = new PortfolioController();
+    PortfolioController portfolioController = new PortfolioController(new PositionView(
+        "AAPL", "C", "1", "Oct 16 2020", "125.00", "6.40", "640.00",
+        "6.35", "635.00", "($5.00)", "(8%)"));
     Model model = new ConcurrentModel();
 
     portfolioController.viewPortfolio(model);
