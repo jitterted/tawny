@@ -5,23 +5,24 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
 public class PortfolioController {
 
-  private PositionView view = new PositionView("", "", "", "", "", "", "", "", "", "", "");
+  private List<PositionView> views = new ArrayList<>();
 
   public PortfolioController() {
   }
 
-  public PortfolioController(PositionView view) {
-    this.view = view;
+  public PortfolioController(List<PositionView> views) {
+    this.views = views;
   }
 
   @GetMapping("/view")
   public String viewPortfolio(Model model) {
-    model.addAttribute("positions", List.of(view));
+    model.addAttribute("positions", views);
     return "view";
   }
 
@@ -33,7 +34,7 @@ public class PortfolioController {
 
   @PostMapping("/open-position")
   public String handleOpenPosition(OpenPositionForm openPositionForm) {
-    view = PositionView.fromForm(openPositionForm);
+    views.add(PositionView.fromForm(openPositionForm));
     return "redirect:/view";
   }
 

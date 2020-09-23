@@ -19,6 +19,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
+@SuppressWarnings("unchecked")
 @WebMvcTest
 public class PortfolioViewIntegrationTest {
 
@@ -26,21 +27,20 @@ public class PortfolioViewIntegrationTest {
   MockMvc mockMvc;
 
   @Test
-  public void givenPortfolioWithOpenPositionDisplaysPosition() throws Exception {
+  public void givenNewPortfolioViewModelContainsEmptyPositionList() throws Exception {
     MvcResult mvcResult = mockMvc.perform(get("/view"))
                                  .andExpect(status().isOk())
                                  .andExpect(view().name("view"))
                                  .andExpect(model().attributeExists("positions"))
                                  .andReturn();
 
-    @SuppressWarnings("unchecked")
     Collection<String> positions = (Collection<String>)
         mvcResult.getModelAndView()
                  .getModel()
                  .get("positions");
 
     assertThat(positions)
-        .isNotEmpty();
+        .isEmpty();
   }
 
   @Test
@@ -71,6 +71,14 @@ public class PortfolioViewIntegrationTest {
 
     MvcResult mvcResult = mockMvc.perform(get("/view"))
                                  .andReturn();
+
+    Collection<String> positions = (Collection<String>)
+        mvcResult.getModelAndView()
+                 .getModel()
+                 .get("positions");
+
+    assertThat(positions)
+        .hasSize(1);
 
     assertThat(mvcResult.getResponse().getContentAsString())
         .contains("<td>AMD</td>", "7500", "570");
