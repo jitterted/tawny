@@ -27,21 +27,6 @@ class PositionView {
     this.valuePercentageGain = valuePercentageGain;
   }
 
-  public static PositionView fromForm(OpenPositionForm openPositionForm) {
-    return new PositionView(openPositionForm.getUnderlyingSymbol(),
-                            openPositionForm.getOptionType(),
-                            String.valueOf(openPositionForm.getQuantity()),
-                            openPositionForm.getExpiration().toString(),
-                            String.valueOf(openPositionForm.getStrikePrice()),
-                            String.valueOf(openPositionForm.getUnitCost()),
-                            String.valueOf(openPositionForm.getQuantity() * openPositionForm.getUnitCost()),
-                            "0.00",
-                            "0.00",
-                            "0",
-                            "0"
-    );
-  }
-
   public static PositionView fromDomain(Position position) {
     return new PositionView(position.underlyingSymbol(),
                             position.optionType(),

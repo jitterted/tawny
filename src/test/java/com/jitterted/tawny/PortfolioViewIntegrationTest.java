@@ -59,10 +59,10 @@ public class PortfolioViewIntegrationTest {
     MultiValueMap<String, String> formParams = new LinkedMultiValueMap<>();
     formParams.add("underlyingSymbol", "AMD");
     formParams.add("type", "call");
-    formParams.add("quantity", "1");
+    formParams.add("quantity", "10");
     formParams.add("expiration", "2020-09-20T10:00:00.000-04:00");
-    formParams.add("strikePrice", "7500");
-    formParams.add("unitCost", "570");
+    formParams.add("strikePrice", "75");
+    formParams.add("unitCost", "5");
 
     mockMvc.perform(post("/open-position")
                         .contentType(MediaType.APPLICATION_FORM_URLENCODED)
@@ -81,7 +81,7 @@ public class PortfolioViewIntegrationTest {
         .hasSize(1);
 
     assertThat(mvcResult.getResponse().getContentAsString())
-        .contains("<td>AMD</td>", "7500", "570");
+        .contains("<td>AMD</td>", "75", "5000");
   }
 
 }

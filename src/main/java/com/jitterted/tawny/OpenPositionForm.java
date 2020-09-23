@@ -1,5 +1,6 @@
 package com.jitterted.tawny;
 
+import org.jetbrains.annotations.NotNull;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.OffsetDateTime;
@@ -8,11 +9,20 @@ public class OpenPositionForm {
   private String underlyingSymbol;
   private String optionType;
   private int quantity;
-
   @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
   private OffsetDateTime expiration;
   private int strikePrice;
   private int unitCost;
+
+  @NotNull
+  static Position toPosition(OpenPositionForm openPositionForm) {
+    return new Position(openPositionForm.getUnderlyingSymbol(),
+                        openPositionForm.getOptionType(),
+                        openPositionForm.getQuantity(),
+                        openPositionForm.getExpiration(),
+                        openPositionForm.getStrikePrice(),
+                        openPositionForm.getUnitCost());
+  }
 
   public String getUnderlyingSymbol() {
     return underlyingSymbol;

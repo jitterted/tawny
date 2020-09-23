@@ -19,11 +19,7 @@ class PortfolioControllerTest {
   public void givenSingleOpenPositionViewReturnsPosition() throws Exception {
     Position aaplPosition = new Position("AAPL", "C", 1, OCT_16_2020, 125, 6);
     PortfolioController portfolioController = new PortfolioController(aaplPosition);
-    Model model = new ConcurrentModel();
-
-    portfolioController.viewPortfolio(model);
-
-    Collection<PositionView> positions = (Collection<PositionView>) model.getAttribute("positions");
+    Collection<PositionView> positions = positionsFromViewModel(portfolioController);
     PositionView expectedView = new PositionView(
         "AAPL", "C", "1", "2020-10-16T16:00-04:00", "125", "6", "600",
         "0.00", "0.00", "0", "0");
@@ -38,10 +34,7 @@ class PortfolioControllerTest {
     Position amdPosition = new Position("AMD", "C", 10, OCT_16_2020, 80, 2);
     PortfolioController portfolioController = new PortfolioController(aaplPosition, amdPosition);
 
-    Model model = new ConcurrentModel();
-    portfolioController.viewPortfolio(model);
-
-    Collection<PositionView> positions = (Collection<PositionView>) model.getAttribute("positions");
+    Collection<PositionView> positions = positionsFromViewModel(portfolioController);
 
     PositionView aaplPositionView = new PositionView(
         "AAPL", "C", "1", "2020-10-16T16:00-04:00", "125", "6", "600",
@@ -52,6 +45,36 @@ class PortfolioControllerTest {
     );
     assertThat(positions)
         .containsExactlyInAnyOrder(aaplPositionView, amdPositionView);
+  }
+
+  @Test
+  public void submitOpenPositionThenViewShowsPosition() throws Exception {
+    PortfolioController portfolioController = new PortfolioController();
+    OpenPositionForm openPositionForm = new OpenPositionForm();
+    openPositionForm.setUnderlyingSymbol("AMD");
+    openPositionForm.setExpiration(OCT_16_2020);
+    openPositionForm.setQuantity(10);
+    openPositionForm.setOptionType("C");
+    openPositionForm.setStrikePrice(80);
+    openPositionForm.setUnitCost(2);
+    portfolioController.handleOpenPosition(openPositionForm);
+
+    Collection<PositionView> positionViews = positionsFromViewModel(portfolioController);
+
+    PositionView amdPositionView = new PositionView(
+        "AMD", "C", "10", "2020-10-16T16:00-04:00", "80", "2", "2000",
+        "0.00", "0.00", "0", "0"
+    );
+
+    assertThat(positionViews)
+        .containsOnly(amdPositionView);
+  }
+
+  private Collection<PositionView> positionsFromViewModel(PortfolioController portfolioController) {
+    Model model = new ConcurrentModel();
+    portfolioController.viewPortfolio(model);
+
+    return (Collection<PositionView>) model.getAttribute("positions");
   }
 
 }

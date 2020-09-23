@@ -13,19 +13,20 @@ import java.util.stream.Collectors;
 @Controller
 public class PortfolioController {
 
-  private List<PositionView> views = new ArrayList<>();
+  private List<Position> positions = new ArrayList<>();
 
   public PortfolioController() {
   }
 
   public PortfolioController(Position... positions) {
-    views = Arrays.stream(positions).sequential()
-                  .map(PositionView::fromDomain)
-                  .collect(Collectors.toList());
+    this.positions = Arrays.asList(positions);
   }
 
   @GetMapping("/view")
   public String viewPortfolio(Model model) {
+    List<PositionView> views = positions.stream()
+                                        .map(PositionView::fromDomain)
+                                        .collect(Collectors.toList());
     model.addAttribute("positions", views);
     return "view";
   }
@@ -38,7 +39,8 @@ public class PortfolioController {
 
   @PostMapping("/open-position")
   public String handleOpenPosition(OpenPositionForm openPositionForm) {
-    views.add(PositionView.fromForm(openPositionForm));
+    Position position = OpenPositionForm.toPosition(openPositionForm);
+    positions.add(position);
     return "redirect:/view";
   }
 
