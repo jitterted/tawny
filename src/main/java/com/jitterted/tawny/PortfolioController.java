@@ -26,7 +26,8 @@ public class PortfolioController {
   }
 
   @GetMapping("/open-position")
-  public String openPosition() {
+  public String openPosition(Model model) {
+    model.addAttribute("openPositionForm", new OpenPositionForm());
     return "open-position";
   }
 
