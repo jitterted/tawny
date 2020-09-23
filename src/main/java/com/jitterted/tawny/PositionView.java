@@ -42,6 +42,21 @@ class PositionView {
     );
   }
 
+  public static PositionView fromDomain(Position position) {
+    return new PositionView(position.underlyingSymbol(),
+                            position.optionType(),
+                            String.valueOf(position.quantity()),
+                            position.expiration().toString(),
+                            String.valueOf(position.strikePrice()),
+                            String.valueOf(position.unitCost()),
+                            String.valueOf(position.totalCost()),
+                            "0.00",
+                            "0.00",
+                            "0",
+                            "0"
+                            );
+  }
+
   public String getUnderlyingSymbol() {
     return underlyingSymbol;
   }
@@ -88,7 +103,7 @@ class PositionView {
 
   @Override
   public String toString() {
-    return "PositionDto{" +
+    return "PositionView{" +
         "underlyingSymbol='" + underlyingSymbol + '\'' +
         ", optionType='" + optionType + '\'' +
         ", quantity='" + quantity + '\'' +
@@ -99,7 +114,7 @@ class PositionView {
         ", currentOptionPrice='" + currentOptionPrice + '\'' +
         ", currentTotalValue='" + currentTotalValue + '\'' +
         ", valueGain='" + valueGain + '\'' +
-        ", valuePercentage='" + valuePercentageGain + '\'' +
+        ", valuePercentageGain='" + valuePercentageGain + '\'' +
         '}';
   }
 

@@ -6,7 +6,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Controller
 public class PortfolioController {
@@ -16,8 +18,10 @@ public class PortfolioController {
   public PortfolioController() {
   }
 
-  public PortfolioController(List<PositionView> views) {
-    this.views = views;
+  public PortfolioController(Position... positions) {
+    views = Arrays.stream(positions).sequential()
+                  .map(PositionView::fromDomain)
+                  .collect(Collectors.toList());
   }
 
   @GetMapping("/view")
