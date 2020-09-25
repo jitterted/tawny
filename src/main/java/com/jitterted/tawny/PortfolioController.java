@@ -1,13 +1,12 @@
 package com.jitterted.tawny;
 
+import com.jitterted.tawny.domain.Portfolio;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.function.Function;
 import java.util.stream.Collectors;
@@ -15,18 +14,15 @@ import java.util.stream.Collectors;
 @Controller
 public class PortfolioController {
 
-  private List<Position> positions = new ArrayList<>();
+  private final Portfolio portfolio;
 
-  public PortfolioController() {
-  }
-
-  public PortfolioController(Position... positions) {
-    this.positions = Arrays.asList(positions);
+  public PortfolioController(Portfolio portfolio) {
+    this.portfolio = portfolio;
   }
 
   @GetMapping("/view")
   public String viewPortfolio(Model model) {
-    List<PositionView> views = positions.stream()
+    List<PositionView> views = portfolio.stream()
                                         .map(enrichWithLastPrice())
                                         .collect(Collectors.toList());
     model.addAttribute("positions", views);
@@ -47,7 +43,7 @@ public class PortfolioController {
   @PostMapping("/open-position")
   public String handleOpenPosition(OpenPositionForm openPositionForm) {
     Position position = OpenPositionForm.toPosition(openPositionForm);
-    positions.add(position);
+    portfolio.add(position);
     return "redirect:/view";
   }
 

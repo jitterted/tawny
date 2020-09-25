@@ -1,5 +1,7 @@
 package com.jitterted.tawny;
 
+import com.jitterted.tawny.domain.Portfolio;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.ui.ConcurrentModel;
 import org.springframework.ui.Model;
@@ -18,7 +20,8 @@ class PortfolioControllerTest {
   @Test
   public void givenSingleOpenPositionViewReturnsPosition() throws Exception {
     Position aaplPosition = new Position("AAPL", "C", 1, OCT_16_2020, 125, 6);
-    PortfolioController portfolioController = new PortfolioController(aaplPosition);
+    Portfolio portfolio = Portfolio.of(aaplPosition);
+    PortfolioController portfolioController = new PortfolioController(portfolio);
     Collection<PositionView> positions = positionsFromViewModel(portfolioController);
     PositionView expectedView = new PositionView(
         "AAPL", "C", "1", "2020-10-16T16:00-04:00", "125", "6", "600",
@@ -32,7 +35,8 @@ class PortfolioControllerTest {
   public void givenMultipleOpenPositionsViewReturnsAllPositions() throws Exception {
     Position aaplPosition = new Position("AAPL", "C", 1, OCT_16_2020, 125, 6);
     Position amdPosition = new Position("AMD", "C", 10, OCT_16_2020, 80, 2);
-    PortfolioController portfolioController = new PortfolioController(aaplPosition, amdPosition);
+    Portfolio portfolio = Portfolio.of(aaplPosition, amdPosition);
+    PortfolioController portfolioController = new PortfolioController(portfolio);
 
     Collection<PositionView> positions = positionsFromViewModel(portfolioController);
 
@@ -49,7 +53,7 @@ class PortfolioControllerTest {
 
   @Test
   public void submitOpenPositionThenViewShowsPosition() throws Exception {
-    PortfolioController portfolioController = new PortfolioController();
+    PortfolioController portfolioController = new PortfolioController(new Portfolio());
     OpenPositionForm openPositionForm = new OpenPositionForm();
     openPositionForm.setUnderlyingSymbol("AMD");
     openPositionForm.setExpiration(OCT_16_2020);
@@ -68,6 +72,15 @@ class PortfolioControllerTest {
 
     assertThat(positionViews)
         .containsOnly(amdPositionView);
+  }
+
+  @Disabled("Until we have separated out the list of positions into its own repository")
+  @Test
+  public void currentValueOfPositionComesFromPricerPort() throws Exception {
+    Position amdPosition = new Position("AMD", "C", 10, OCT_16_2020, 80, 2);
+    Portfolio portfolio = Portfolio.of(amdPosition);
+    PortfolioController portfolioController = new PortfolioController(portfolio);
+
   }
 
   private Collection<PositionView> positionsFromViewModel(PortfolioController portfolioController) {
