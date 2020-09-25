@@ -48,7 +48,7 @@
   <tbody>
   <tr th:each="position : ${positions}">
     <td th:text="${position.underlyingSymbol}">AAPL</td>
-    <td th:text="${position.optionType}">C</td>
+    <td th:text="${position.contractType}">C</td>
     <td th:text="${position.quantity}">1</td>
     <td th:text="${position.expiration}">Expiration</td>
     <td th:text="${position.strikePrice}">125.00</td>

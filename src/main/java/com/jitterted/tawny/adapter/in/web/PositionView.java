@@ -6,7 +6,7 @@ import java.math.BigDecimal;
 
 class PositionView {
   private final String underlyingSymbol;
-  private final String optionType;
+  private final String contractType;
   private final String quantity;
   private final String expiration;
   private final String strikePrice;
@@ -17,9 +17,9 @@ class PositionView {
   private final String valueGain;
   private final String valuePercentageGain;
 
-  public PositionView(String underlyingSymbol, String optionType, String quantity, String expiration, String strikePrice, String unitCost, String totalCost, String currentOptionPrice, String currentValue, String valueGain, String valuePercentageGain) {
+  public PositionView(String underlyingSymbol, String contractType, String quantity, String expiration, String strikePrice, String unitCost, String totalCost, String currentOptionPrice, String currentValue, String valueGain, String valuePercentageGain) {
     this.underlyingSymbol = underlyingSymbol;
-    this.optionType = optionType;
+    this.contractType = contractType;
     this.quantity = quantity;
     this.expiration = expiration;
     this.strikePrice = strikePrice;
@@ -32,11 +32,11 @@ class PositionView {
   }
 
   public static PositionView fromDomain(Position position, BigDecimal lastPrice) {
-    return new PositionView(position.underlyingSymbol(),
-                            position.optionType(),
+    return new PositionView(position.contract().underlyingSymbol(),
+                            position.contract().contractType(),
                             String.valueOf(position.quantity()),
-                            position.expiration().toString(),
-                            String.valueOf(position.strikePrice()),
+                            position.contract().expirationDate().toString(),
+                            String.valueOf(position.contract().strikePrice()),
                             String.valueOf(position.unitCost()),
                             String.valueOf(position.totalCost()),
                             lastPrice.toPlainString(),
@@ -50,8 +50,8 @@ class PositionView {
     return underlyingSymbol;
   }
 
-  public String getOptionType() {
-    return optionType;
+  public String getContractType() {
+    return contractType;
   }
 
   public String getQuantity() {
@@ -94,7 +94,7 @@ class PositionView {
   public String toString() {
     return "PositionView{" +
         "underlyingSymbol='" + underlyingSymbol + '\'' +
-        ", optionType='" + optionType + '\'' +
+        ", optionType='" + contractType + '\'' +
         ", quantity='" + quantity + '\'' +
         ", expiration='" + expiration + '\'' +
         ", strikePrice='" + strikePrice + '\'' +
@@ -115,7 +115,7 @@ class PositionView {
     PositionView that = (PositionView) o;
 
     if (!underlyingSymbol.equals(that.underlyingSymbol)) return false;
-    if (!optionType.equals(that.optionType)) return false;
+    if (!contractType.equals(that.contractType)) return false;
     if (!quantity.equals(that.quantity)) return false;
     if (!expiration.equals(that.expiration)) return false;
     if (!strikePrice.equals(that.strikePrice)) return false;
@@ -130,7 +130,7 @@ class PositionView {
   @Override
   public int hashCode() {
     int result = underlyingSymbol.hashCode();
-    result = 31 * result + optionType.hashCode();
+    result = 31 * result + contractType.hashCode();
     result = 31 * result + quantity.hashCode();
     result = 31 * result + expiration.hashCode();
     result = 31 * result + strikePrice.hashCode();

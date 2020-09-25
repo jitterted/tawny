@@ -5,48 +5,30 @@ import java.time.OffsetDateTime;
 
 public class Position {
 
-  private static final int SHARES_PER_OPTION = 100;
+  private static final BigDecimal SHARES_PER_OPTION = BigDecimal.valueOf(100);
 
-  private final String underlyingSymbol;
-  private final String optionType;
+  private final Contract contract;
+
   private final int quantity;
-  private final OffsetDateTime expirationDate;
-  private final int strikePrice;
   private final int unitCost;
 
   public Position(String underlyingSymbol,
-                  String optionType,
+                  String contractType,
                   int quantity,
                   OffsetDateTime expirationDate,
                   int strikePrice,
                   int unitCost) {
-
-    this.underlyingSymbol = underlyingSymbol;
-    this.optionType = optionType;
+    this.contract = new Contract(underlyingSymbol, contractType, expirationDate, strikePrice);
     this.quantity = quantity;
-    this.expirationDate = expirationDate;
-    this.strikePrice = strikePrice;
     this.unitCost = unitCost;
-  }
-
-  public String underlyingSymbol() {
-    return underlyingSymbol;
-  }
-
-  public String optionType() {
-    return optionType;
   }
 
   public int quantity() {
     return quantity;
   }
 
-  public OffsetDateTime expiration() {
-    return expirationDate;
-  }
-
-  public int strikePrice() {
-    return strikePrice;
+  public Contract contract() {
+    return contract;
   }
 
   public int unitCost() {
@@ -54,10 +36,11 @@ public class Position {
   }
 
   public int totalCost() {
-    return unitCost * quantity * SHARES_PER_OPTION;
+    return unitCost * quantity * SHARES_PER_OPTION.intValue();
   }
 
   public BigDecimal currentValue(BigDecimal lastPrice) {
-    return lastPrice.multiply(BigDecimal.valueOf(quantity)).multiply(BigDecimal.valueOf(SHARES_PER_OPTION));
+    return lastPrice.multiply(BigDecimal.valueOf(quantity))
+                    .multiply(SHARES_PER_OPTION);
   }
 }

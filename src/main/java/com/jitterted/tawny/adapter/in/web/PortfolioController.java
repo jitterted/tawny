@@ -48,7 +48,7 @@ public class PortfolioController {
   }
 
   private PositionView enrichWithLastPrice(Position position) {
-    BigDecimal lastPrice = pricer.fetchPriceQuote(position.underlyingSymbol());
+    BigDecimal lastPrice = pricer.fetchPriceQuote(position.contract().underlyingSymbol());
     return PositionView.fromDomain(position, lastPrice);
   }
 }
