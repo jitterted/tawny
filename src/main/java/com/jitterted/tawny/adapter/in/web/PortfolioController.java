@@ -2,37 +2,45 @@ package com.jitterted.tawny.adapter.in.web;
 
 import com.jitterted.tawny.domain.Portfolio;
 import com.jitterted.tawny.domain.Position;
-import org.jetbrains.annotations.NotNull;
+import com.jitterted.tawny.domain.Pricer;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import java.math.BigDecimal;
 import java.util.List;
-import java.util.function.Function;
 import java.util.stream.Collectors;
 
 @Controller
 public class PortfolioController {
 
   private final Portfolio portfolio;
+  private Pricer pricer = new Pricer() {
+    @Override
+    public BigDecimal fetchPriceQuote(String symbol) {
+      return new BigDecimal("0.00");
+    }
+  };
 
+  @Autowired
   public PortfolioController(Portfolio portfolio) {
     this.portfolio = portfolio;
+  }
+
+  public PortfolioController(Portfolio portfolio, Pricer pricer) {
+    this(portfolio);
+    this.pricer = pricer;
   }
 
   @GetMapping("/view")
   public String viewPortfolio(Model model) {
     List<PositionView> views = portfolio.stream()
-                                        .map(enrichWithLastPrice())
+                                        .map(this::enrichWithLastPrice)
                                         .collect(Collectors.toList());
     model.addAttribute("positions", views);
     return "view";
-  }
-
-  @NotNull
-  private Function<Position, PositionView> enrichWithLastPrice() {
-    return PositionView::fromDomain;
   }
 
   @GetMapping("/open-position")
@@ -48,4 +56,8 @@ public class PortfolioController {
     return "redirect:/view";
   }
 
+  private PositionView enrichWithLastPrice(Position position) {
+    BigDecimal lastPrice = pricer.fetchPriceQuote(position.underlyingSymbol());
+    return PositionView.fromDomain(position, lastPrice);
+  }
 }

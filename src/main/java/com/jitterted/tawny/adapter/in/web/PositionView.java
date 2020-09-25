@@ -2,6 +2,8 @@ package com.jitterted.tawny.adapter.in.web;
 
 import com.jitterted.tawny.domain.Position;
 
+import java.math.BigDecimal;
+
 class PositionView {
   private final String underlyingSymbol;
   private final String optionType;
@@ -11,11 +13,11 @@ class PositionView {
   private final String unitCost; // TODO better term for this
   private final String totalCost;
   private final String currentOptionPrice;
-  private final String currentTotalValue;
+  private final String currentValue;
   private final String valueGain;
   private final String valuePercentageGain;
 
-  public PositionView(String underlyingSymbol, String optionType, String quantity, String expiration, String strikePrice, String unitCost, String totalCost, String currentOptionPrice, String currentTotalValue, String valueGain, String valuePercentageGain) {
+  public PositionView(String underlyingSymbol, String optionType, String quantity, String expiration, String strikePrice, String unitCost, String totalCost, String currentOptionPrice, String currentValue, String valueGain, String valuePercentageGain) {
     this.underlyingSymbol = underlyingSymbol;
     this.optionType = optionType;
     this.quantity = quantity;
@@ -24,12 +26,12 @@ class PositionView {
     this.unitCost = unitCost;
     this.totalCost = totalCost;
     this.currentOptionPrice = currentOptionPrice;
-    this.currentTotalValue = currentTotalValue;
+    this.currentValue = currentValue;
     this.valueGain = valueGain;
     this.valuePercentageGain = valuePercentageGain;
   }
 
-  public static PositionView fromDomain(Position position) {
+  public static PositionView fromDomain(Position position, BigDecimal lastPrice) {
     return new PositionView(position.underlyingSymbol(),
                             position.optionType(),
                             String.valueOf(position.quantity()),
@@ -37,8 +39,8 @@ class PositionView {
                             String.valueOf(position.strikePrice()),
                             String.valueOf(position.unitCost()),
                             String.valueOf(position.totalCost()),
-                            "0.00",
-                            "0.00",
+                            lastPrice.toPlainString(),
+                            position.currentValue(lastPrice).toPlainString(),
                             "0",
                             "0"
                             );
@@ -76,8 +78,8 @@ class PositionView {
     return currentOptionPrice;
   }
 
-  public String getCurrentTotalValue() {
-    return currentTotalValue;
+  public String getCurrentValue() {
+    return currentValue;
   }
 
   public String getValueGain() {
@@ -99,7 +101,7 @@ class PositionView {
         ", unitCost='" + unitCost + '\'' +
         ", totalCost='" + totalCost + '\'' +
         ", currentOptionPrice='" + currentOptionPrice + '\'' +
-        ", currentTotalValue='" + currentTotalValue + '\'' +
+        ", currentTotalValue='" + currentValue + '\'' +
         ", valueGain='" + valueGain + '\'' +
         ", valuePercentageGain='" + valuePercentageGain + '\'' +
         '}';
@@ -120,7 +122,7 @@ class PositionView {
     if (!unitCost.equals(that.unitCost)) return false;
     if (!totalCost.equals(that.totalCost)) return false;
     if (!currentOptionPrice.equals(that.currentOptionPrice)) return false;
-    if (!currentTotalValue.equals(that.currentTotalValue)) return false;
+    if (!currentValue.equals(that.currentValue)) return false;
     if (!valueGain.equals(that.valueGain)) return false;
     return valuePercentageGain.equals(that.valuePercentageGain);
   }
@@ -135,7 +137,7 @@ class PositionView {
     result = 31 * result + unitCost.hashCode();
     result = 31 * result + totalCost.hashCode();
     result = 31 * result + currentOptionPrice.hashCode();
-    result = 31 * result + currentTotalValue.hashCode();
+    result = 31 * result + currentValue.hashCode();
     result = 31 * result + valueGain.hashCode();
     result = 31 * result + valuePercentageGain.hashCode();
     return result;

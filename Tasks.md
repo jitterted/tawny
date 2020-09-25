@@ -7,3 +7,6 @@
     [X] Store received form input
     [X] View needs to use stored information
 [X] Form for input of Open Position
+
+
+[ ] Add ArchUnit to enforce proper separation/dependencies for Hexagonal Architecture

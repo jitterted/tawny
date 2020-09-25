@@ -2,7 +2,6 @@ package com.jitterted.tawny.adapter.in.web;
 
 import com.jitterted.tawny.domain.Portfolio;
 import com.jitterted.tawny.domain.Position;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.ui.ConcurrentModel;
 import org.springframework.ui.Model;
@@ -75,13 +74,19 @@ class PortfolioControllerTest {
         .containsOnly(amdPositionView);
   }
 
-  @Disabled("Until we have separated out the list of positions into its own repository")
   @Test
   public void currentValueOfPositionComesFromPricerPort() throws Exception {
-    Position amdPosition = new Position("AMD", "C", 10, OCT_16_2020, 80, 2);
+    int quantity = 10;
+    Position amdPosition = new Position("AMD", "C", quantity, OCT_16_2020, 80, 2);
     Portfolio portfolio = Portfolio.of(amdPosition);
-    PortfolioController portfolioController = new PortfolioController(portfolio);
+    int lastPriceForOption = 3;
+    StubPricer stubPricer = new StubPricer(lastPriceForOption);
+    PortfolioController portfolioController = new PortfolioController(portfolio, stubPricer);
 
+    Collection<PositionView> positionViews = positionsFromViewModel(portfolioController);
+
+    assertThat(positionViews.stream().findFirst().get().getCurrentValue())
+        .isEqualTo(String.valueOf(quantity * lastPriceForOption * 100));
   }
 
   private Collection<PositionView> positionsFromViewModel(PortfolioController portfolioController) {
