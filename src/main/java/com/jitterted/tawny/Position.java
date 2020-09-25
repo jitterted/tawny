@@ -1,5 +1,6 @@
 package com.jitterted.tawny;
 
+import java.math.BigDecimal;
 import java.time.OffsetDateTime;
 
 public class Position {
@@ -54,5 +55,9 @@ public class Position {
 
   public int totalCost() {
     return unitCost * quantity * SHARES_PER_OPTION;
+  }
+
+  public BigDecimal currentValue(BigDecimal lastPrice) {
+    return lastPrice.multiply(BigDecimal.valueOf(quantity)).multiply(BigDecimal.valueOf(SHARES_PER_OPTION));
   }
 }

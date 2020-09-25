@@ -1,5 +1,7 @@
 package com.jitterted.tawny;
 
+import java.math.BigDecimal;
+
 public class Quote {
   private String symbol;
 
@@ -33,7 +35,7 @@ public class Quote {
 
   private String week_52_high;
 
-  private String last;
+  private BigDecimal last;
 
   private String option_type;
 
@@ -199,11 +201,11 @@ public class Quote {
     this.week_52_high = week_52_high;
   }
 
-  public String getLast() {
+  public BigDecimal getLast() {
     return last;
   }
 
-  public void setLast(String last) {
+  public void setLast(BigDecimal last) {
     this.last = last;
   }
 
