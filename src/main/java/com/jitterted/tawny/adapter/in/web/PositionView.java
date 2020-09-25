@@ -1,4 +1,6 @@
-package com.jitterted.tawny;
+package com.jitterted.tawny.adapter.in.web;
+
+import com.jitterted.tawny.domain.Position;
 
 class PositionView {
   private final String underlyingSymbol;

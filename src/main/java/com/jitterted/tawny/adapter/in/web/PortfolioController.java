@@ -1,6 +1,7 @@
-package com.jitterted.tawny;
+package com.jitterted.tawny.adapter.in.web;
 
 import com.jitterted.tawny.domain.Portfolio;
+import com.jitterted.tawny.domain.Position;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

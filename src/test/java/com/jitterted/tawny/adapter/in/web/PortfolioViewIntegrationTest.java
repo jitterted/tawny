@@ -1,4 +1,4 @@
-package com.jitterted.tawny;
+package com.jitterted.tawny.adapter.in.web;
 
 import com.jitterted.tawny.domain.Portfolio;
 import org.junit.jupiter.api.Test;

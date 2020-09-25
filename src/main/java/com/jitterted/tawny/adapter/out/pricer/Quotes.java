@@ -1,4 +1,4 @@
-package com.jitterted.tawny;
+package com.jitterted.tawny.adapter.out.pricer;
 
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
 

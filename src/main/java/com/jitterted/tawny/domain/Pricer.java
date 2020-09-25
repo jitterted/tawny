@@ -1,4 +1,4 @@
-package com.jitterted.tawny;
+package com.jitterted.tawny.domain;
 
 import java.math.BigDecimal;
 

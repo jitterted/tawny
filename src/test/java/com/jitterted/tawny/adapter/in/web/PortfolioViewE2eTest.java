@@ -1,4 +1,4 @@
-package com.jitterted.tawny;
+package com.jitterted.tawny.adapter.in.web;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
