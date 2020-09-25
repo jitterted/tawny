@@ -17,20 +17,11 @@ import java.util.stream.Collectors;
 public class PortfolioController {
 
   private final Portfolio portfolio;
-  private Pricer pricer = new Pricer() {
-    @Override
-    public BigDecimal fetchPriceQuote(String symbol) {
-      return new BigDecimal("0.00");
-    }
-  };
+  private final Pricer pricer;
 
   @Autowired
-  public PortfolioController(Portfolio portfolio) {
-    this.portfolio = portfolio;
-  }
-
   public PortfolioController(Portfolio portfolio, Pricer pricer) {
-    this(portfolio);
+    this.portfolio = portfolio;
     this.pricer = pricer;
   }
 

@@ -2,10 +2,12 @@ package com.jitterted.tawny.adapter.in.web;
 
 import com.jitterted.tawny.domain.Portfolio;
 import com.jitterted.tawny.domain.Position;
+import com.jitterted.tawny.domain.Pricer;
 import org.junit.jupiter.api.Test;
 import org.springframework.ui.ConcurrentModel;
 import org.springframework.ui.Model;
 
+import java.math.BigDecimal;
 import java.time.OffsetDateTime;
 import java.time.ZoneOffset;
 import java.util.Collection;
@@ -16,12 +18,13 @@ import static org.assertj.core.api.Assertions.*;
 class PortfolioControllerTest {
 
   private static final OffsetDateTime OCT_16_2020 = OffsetDateTime.of(2020, 10, 16, 16, 0, 0, 0, ZoneOffset.of("-04:00"));
+  private static final Pricer STUB_0_00_PRICER = symbol -> new BigDecimal("0.00");
 
   @Test
   public void givenSingleOpenPositionViewReturnsPosition() throws Exception {
     Position aaplPosition = new Position("AAPL", "C", 1, OCT_16_2020, 125, 6);
     Portfolio portfolio = Portfolio.of(aaplPosition);
-    PortfolioController portfolioController = new PortfolioController(portfolio);
+    PortfolioController portfolioController = new PortfolioController(portfolio, STUB_0_00_PRICER);
     Collection<PositionView> positions = positionsFromViewModel(portfolioController);
     PositionView expectedView = new PositionView(
         "AAPL", "C", "1", "2020-10-16T16:00-04:00", "125", "6", "600",
@@ -36,7 +39,7 @@ class PortfolioControllerTest {
     Position aaplPosition = new Position("AAPL", "C", 1, OCT_16_2020, 125, 6);
     Position amdPosition = new Position("AMD", "C", 10, OCT_16_2020, 80, 2);
     Portfolio portfolio = Portfolio.of(aaplPosition, amdPosition);
-    PortfolioController portfolioController = new PortfolioController(portfolio);
+    PortfolioController portfolioController = new PortfolioController(portfolio, STUB_0_00_PRICER);
 
     Collection<PositionView> positions = positionsFromViewModel(portfolioController);
 
@@ -53,7 +56,7 @@ class PortfolioControllerTest {
 
   @Test
   public void submitOpenPositionThenViewShowsPosition() throws Exception {
-    PortfolioController portfolioController = new PortfolioController(new Portfolio());
+    PortfolioController portfolioController = new PortfolioController(new Portfolio(), STUB_0_00_PRICER);
     OpenPositionForm openPositionForm = new OpenPositionForm();
     openPositionForm.setUnderlyingSymbol("AMD");
     openPositionForm.setExpiration(OCT_16_2020);
