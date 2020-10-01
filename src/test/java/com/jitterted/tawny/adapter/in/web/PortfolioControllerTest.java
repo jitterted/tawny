@@ -1,5 +1,6 @@
 package com.jitterted.tawny.adapter.in.web;
 
+import com.jitterted.tawny.domain.NewYorkTimeConstants;
 import com.jitterted.tawny.domain.Portfolio;
 import com.jitterted.tawny.domain.Position;
 import com.jitterted.tawny.domain.Pricer;
@@ -17,12 +18,11 @@ import static org.assertj.core.api.Assertions.*;
 @SuppressWarnings("unchecked")
 class PortfolioControllerTest {
 
-  private static final OffsetDateTime OCT_16_2020 = OffsetDateTime.of(2020, 10, 16, 16, 0, 0, 0, ZoneOffset.of("-04:00"));
   private static final Pricer STUB_0_00_PRICER = symbol -> new BigDecimal("0.00");
 
   @Test
   public void givenSingleOpenPositionViewReturnsPosition() throws Exception {
-    Position aaplPosition = new Position("AAPL", "C", 1, OCT_16_2020, 125, 6);
+    Position aaplPosition = new Position("AAPL", "C", 1, NewYorkTimeConstants.OCT_16_2020, 125, 6);
     Portfolio portfolio = Portfolio.of(aaplPosition);
     PortfolioController portfolioController = new PortfolioController(portfolio, STUB_0_00_PRICER);
     Collection<PositionView> positions = positionsFromViewModel(portfolioController);
@@ -36,8 +36,8 @@ class PortfolioControllerTest {
 
   @Test
   public void givenMultipleOpenPositionsViewReturnsAllPositions() throws Exception {
-    Position aaplPosition = new Position("AAPL", "C", 1, OCT_16_2020, 125, 6);
-    Position amdPosition = new Position("AMD", "C", 10, OCT_16_2020, 80, 2);
+    Position aaplPosition = new Position("AAPL", "C", 1, NewYorkTimeConstants.OCT_16_2020, 125, 6);
+    Position amdPosition = new Position("AMD", "C", 10, NewYorkTimeConstants.OCT_16_2020, 80, 2);
     Portfolio portfolio = Portfolio.of(aaplPosition, amdPosition);
     PortfolioController portfolioController = new PortfolioController(portfolio, STUB_0_00_PRICER);
 
@@ -59,7 +59,7 @@ class PortfolioControllerTest {
     PortfolioController portfolioController = new PortfolioController(new Portfolio(), STUB_0_00_PRICER);
     OpenPositionForm openPositionForm = new OpenPositionForm();
     openPositionForm.setUnderlyingSymbol("AMD");
-    openPositionForm.setExpiration(OCT_16_2020);
+    openPositionForm.setExpiration(NewYorkTimeConstants.OCT_16_2020);
     openPositionForm.setQuantity(10);
     openPositionForm.setOptionType("C");
     openPositionForm.setStrikePrice(80);
@@ -80,7 +80,7 @@ class PortfolioControllerTest {
   @Test
   public void currentValueOfPositionComesFromPricerPort() throws Exception {
     int quantity = 10;
-    Position amdPosition = new Position("AMD", "C", quantity, OCT_16_2020, 80, 2);
+    Position amdPosition = new Position("AMD", "C", quantity, NewYorkTimeConstants.OCT_16_2020, 80, 2);
     Portfolio portfolio = Portfolio.of(amdPosition);
     int lastPriceForOption = 3;
     StubPricer stubPricer = new StubPricer(lastPriceForOption);
