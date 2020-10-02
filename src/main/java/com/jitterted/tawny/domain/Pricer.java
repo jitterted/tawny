@@ -1,7 +1,7 @@
 package com.jitterted.tawny.domain;
 
-import java.math.BigDecimal;
+import org.joda.money.Money;
 
 public interface Pricer {
-  BigDecimal fetchPriceQuote(Contract contract);
+  Money fetchPriceQuote(Contract contract);
 }

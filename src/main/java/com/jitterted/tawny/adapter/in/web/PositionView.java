@@ -1,8 +1,9 @@
 package com.jitterted.tawny.adapter.in.web;
 
 import com.jitterted.tawny.domain.Position;
-
-import java.math.BigDecimal;
+import org.joda.money.Money;
+import org.joda.money.format.MoneyFormatter;
+import org.joda.money.format.MoneyFormatterBuilder;
 
 class PositionView {
   private final String underlyingSymbol;
@@ -16,6 +17,12 @@ class PositionView {
   private final String currentValue;
   private final String valueGain;
   private final String valuePercentageGain;
+
+  private static final MoneyFormatter USD_FORMATTER =
+      new MoneyFormatterBuilder().appendCurrencySymbolLocalized()
+                                 .appendAmountLocalized()
+                                 .toFormatter();
+
 
   public PositionView(String underlyingSymbol, String contractType, String quantity, String expiration, String strikePrice, String unitCost, String totalCost, String currentOptionPrice, String currentValue, String valueGain, String valuePercentageGain) {
     this.underlyingSymbol = underlyingSymbol;
@@ -31,19 +38,19 @@ class PositionView {
     this.valuePercentageGain = valuePercentageGain;
   }
 
-  public static PositionView fromDomain(Position position, BigDecimal lastPrice) {
+  public static PositionView fromDomain(Position position, Money lastPrice) {
     return new PositionView(position.contract().underlyingSymbol(),
                             position.contract().contractType(),
                             String.valueOf(position.quantity()),
                             position.contract().expirationDate().toString(),
                             String.valueOf(position.contract().strikePrice()),
-                            String.valueOf(position.unitCost()),
-                            String.valueOf(position.totalCost()),
-                            lastPrice.toPlainString(),
-                            position.currentValue(lastPrice).toPlainString(),
+                            USD_FORMATTER.print(position.unitCost()),
+                            USD_FORMATTER.print(position.totalCost()),
+                            USD_FORMATTER.print(lastPrice),
+                            USD_FORMATTER.print(position.currentValue(lastPrice)),
                             "0",
                             "0"
-                            );
+    );
   }
 
   public String getUnderlyingSymbol() {

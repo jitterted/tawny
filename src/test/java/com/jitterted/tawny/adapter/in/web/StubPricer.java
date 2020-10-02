@@ -2,18 +2,18 @@ package com.jitterted.tawny.adapter.in.web;
 
 import com.jitterted.tawny.domain.Contract;
 import com.jitterted.tawny.domain.Pricer;
-
-import java.math.BigDecimal;
+import com.jitterted.tawny.domain.UsMoney;
+import org.joda.money.Money;
 
 class StubPricer implements Pricer {
-  private final BigDecimal lastPrice;
+  private final Money lastPrice;
 
-  public StubPricer(int lastPriceConstant) {
-    lastPrice = BigDecimal.valueOf(lastPriceConstant);
+  public StubPricer(double lastPriceConstant) {
+    lastPrice = UsMoney.$(lastPriceConstant);
   }
 
   @Override
-  public BigDecimal fetchPriceQuote(Contract contract) {
+  public Money fetchPriceQuote(Contract contract) {
     return lastPrice;
   }
 }

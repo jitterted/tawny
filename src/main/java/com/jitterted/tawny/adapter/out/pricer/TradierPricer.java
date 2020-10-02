@@ -2,6 +2,8 @@ package com.jitterted.tawny.adapter.out.pricer;
 
 import com.jitterted.tawny.domain.Contract;
 import com.jitterted.tawny.domain.Pricer;
+import com.jitterted.tawny.domain.UsMoney;
+import org.joda.money.Money;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -20,7 +22,7 @@ public class TradierPricer implements Pricer {
   private final RestTemplate restTemplate = new RestTemplate();
 
   @Override
-  public BigDecimal fetchPriceQuote(Contract contract) {
+  public Money fetchPriceQuote(Contract contract) {
     HttpHeaders headers = new HttpHeaders();
     headers.setAccept(Collections.singletonList(MediaType.APPLICATION_XML));
     headers.set("Authorization", "Bearer " + "Lk8GquRZ1i5n2MwAsYCAo2g1HSfR");
@@ -34,9 +36,10 @@ public class TradierPricer implements Pricer {
 
     List<Quote> quotes = quotesResponse.getBody().getQuote();
     if (quotes == null) {
-      return BigDecimal.ZERO;
+      return UsMoney.zero();
     }
 
-    return quotes.get(0).getLast();
+    BigDecimal lastPrice = quotes.get(0).getLast();
+    return UsMoney.$(lastPrice);
   }
 }

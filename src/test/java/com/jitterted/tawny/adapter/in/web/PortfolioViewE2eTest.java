@@ -52,6 +52,6 @@ public class PortfolioViewE2eTest {
         .hasSize(1);
 
     assertThat(mvcResult.getResponse().getContentAsString())
-        .contains("<td>AMD</td>", "75", "5000");
+        .contains("<td>AMD</td>", "75", "$5,000.00");
   }
 }

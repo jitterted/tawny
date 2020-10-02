@@ -3,6 +3,7 @@ package com.jitterted.tawny.adapter.in.web;
 import com.jitterted.tawny.domain.Portfolio;
 import com.jitterted.tawny.domain.Position;
 import com.jitterted.tawny.domain.Pricer;
+import org.joda.money.Money;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -10,7 +11,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import javax.validation.Valid;
-import java.math.BigDecimal;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -49,7 +49,7 @@ public class PortfolioController {
   }
 
   private PositionView enrichWithLastPrice(Position position) {
-    BigDecimal lastPrice = pricer.fetchPriceQuote(position.contract());
+    Money lastPrice = pricer.fetchPriceQuote(position.contract());
     return PositionView.fromDomain(position, lastPrice);
   }
 }

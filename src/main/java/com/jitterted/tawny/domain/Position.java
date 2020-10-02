@@ -1,23 +1,24 @@
 package com.jitterted.tawny.domain;
 
-import java.math.BigDecimal;
+import org.joda.money.Money;
+
 import java.time.OffsetDateTime;
 
 public class Position {
 
-  private static final BigDecimal SHARES_PER_OPTION = BigDecimal.valueOf(100);
+  private static final int SHARES_PER_OPTION = 100;
 
   private final Contract contract;
 
   private final int quantity;
-  private final int unitCost;
+  private final Money unitCost;
 
   public Position(String underlyingSymbol,
                   String contractType,
                   int quantity,
                   OffsetDateTime expirationDate,
                   int strikePrice,
-                  int unitCost) {
+                  Money unitCost) {
     this.contract = new Contract(underlyingSymbol, contractType, expirationDate, strikePrice);
     this.quantity = quantity;
     this.unitCost = unitCost;
@@ -31,16 +32,17 @@ public class Position {
     return contract;
   }
 
-  public int unitCost() {
+  public Money unitCost() {
     return unitCost;
   }
 
-  public int totalCost() {
-    return unitCost * quantity * SHARES_PER_OPTION.intValue();
+  public Money totalCost() {
+    return unitCost.multipliedBy(quantity)
+                   .multipliedBy(SHARES_PER_OPTION);
   }
 
-  public BigDecimal currentValue(BigDecimal lastPrice) {
-    return lastPrice.multiply(BigDecimal.valueOf(quantity))
-                    .multiply(SHARES_PER_OPTION);
+  public Money currentValue(Money lastPrice) {
+    return lastPrice.multipliedBy(quantity)
+                    .multipliedBy(SHARES_PER_OPTION);
   }
 }

@@ -2,11 +2,10 @@ package com.jitterted.tawny;
 
 import com.jitterted.tawny.domain.Portfolio;
 import com.jitterted.tawny.domain.Pricer;
+import com.jitterted.tawny.domain.UsMoney;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
-
-import java.math.BigDecimal;
 
 @SpringBootApplication
 public class TawnyPortfolioApplication {
@@ -21,7 +20,7 @@ public class TawnyPortfolioApplication {
   }
 
   public Pricer nullPricer() {
-    return symbol -> new BigDecimal("0.00");
+    return symbol -> UsMoney.zero();
   }
 
 }

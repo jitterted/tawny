@@ -1,12 +1,14 @@
 package com.jitterted.tawny.adapter.in.web;
 
 import com.jitterted.tawny.domain.Position;
+import com.jitterted.tawny.domain.UsMoney;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.validation.constraints.FutureOrPresent;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.Pattern;
+import java.math.BigDecimal;
 import java.time.OffsetDateTime;
 
 public class OpenPositionForm {
@@ -25,7 +27,7 @@ public class OpenPositionForm {
   @Min(1)
   private int strikePrice;
 
-  private int unitCost;
+  private BigDecimal unitCost;
 
   @NotNull
   static Position toPosition(OpenPositionForm openPositionForm) {
@@ -34,7 +36,7 @@ public class OpenPositionForm {
                         openPositionForm.getQuantity(),
                         openPositionForm.getExpiration(),
                         openPositionForm.getStrikePrice(),
-                        openPositionForm.getUnitCost());
+                        UsMoney.$(openPositionForm.getUnitCost()));
   }
 
   public String getUnderlyingSymbol() {
@@ -77,11 +79,11 @@ public class OpenPositionForm {
     this.strikePrice = strikePrice;
   }
 
-  public int getUnitCost() {
+  public BigDecimal getUnitCost() {
     return unitCost;
   }
 
-  public void setUnitCost(int unitCost) {
+  public void setUnitCost(BigDecimal unitCost) {
     this.unitCost = unitCost;
   }
 }
