@@ -20,7 +20,6 @@ public class TawnyPortfolioApplication {
     return new Portfolio();
   }
 
-  @Bean
   public Pricer nullPricer() {
     return symbol -> new BigDecimal("0.00");
   }

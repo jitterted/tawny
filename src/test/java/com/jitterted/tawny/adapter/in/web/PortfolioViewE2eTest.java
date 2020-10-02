@@ -1,5 +1,6 @@
 package com.jitterted.tawny.adapter.in.web;
 
+import com.jitterted.tawny.domain.NewYorkTimeConstants;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -28,9 +29,9 @@ public class PortfolioViewE2eTest {
   public void postFormToOpenPositionShowsInformationOnView() throws Exception {
     MultiValueMap<String, String> formParams = new LinkedMultiValueMap<>();
     formParams.add("underlyingSymbol", "AMD");
-    formParams.add("type", "call");
+    formParams.add("optionType", "C"); // radio button choice
     formParams.add("quantity", "10");
-    formParams.add("expiration", "2020-09-20T10:00:00.000-04:00");
+    formParams.add("expiration", NewYorkTimeConstants.OCT_16_2020.toString());
     formParams.add("strikePrice", "75");
     formParams.add("unitCost", "5");
 

@@ -1,5 +1,7 @@
 package com.jitterted.tawny.adapter.out.pricer;
 
+import com.jitterted.tawny.domain.Contract;
+import com.jitterted.tawny.domain.NewYorkTimeConstants;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -28,7 +30,10 @@ public class TradierApiTest {
     HttpHeaders headers = new HttpHeaders();
     headers.setAccept(Collections.singletonList(MediaType.APPLICATION_XML));
     headers.set("Authorization", "Bearer " + "Lk8GquRZ1i5n2MwAsYCAo2g1HSfR");
-    String url = "https://sandbox.tradier.com/v1/markets/quotes?symbols=AMD201016C00075000,AAPL,AMD";
+    String optionSymbol = new ContractToOptionSymbolConverter().symbolFor(
+        new Contract("AMD", "C", NewYorkTimeConstants.OCT_16_2020, 75)
+    );
+    String url = "https://sandbox.tradier.com/v1/markets/quotes?symbols=" + optionSymbol + ",AAPL,AMD";
     HttpEntity<String> requestEntity = new HttpEntity<>(headers);
 
     ResponseEntity<Quotes> quotesResponse = testRestTemplate.exchange(
@@ -44,7 +49,7 @@ public class TradierApiTest {
 
     assertThat(quotes)
         .extracting(Quote::getSymbol)
-        .contains("AMD");
+        .contains(optionSymbol);
 
     quotes.stream().forEach(quote -> System.out.println(quote.getSymbol() + " = " + quote.getLast()));
   }

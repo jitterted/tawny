@@ -1,6 +1,7 @@
 package com.jitterted.tawny.adapter.in.web;
 
 import com.jitterted.tawny.domain.Portfolio;
+import com.jitterted.tawny.domain.Pricer;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -25,6 +26,9 @@ public class PortfolioViewIntegrationTest {
 
   @MockBean
   Portfolio portfolio;
+
+  @MockBean
+  Pricer pricer;
 
   @Test
   public void givenNewPortfolioViewModelContainsEmptyPositionList() throws Exception {

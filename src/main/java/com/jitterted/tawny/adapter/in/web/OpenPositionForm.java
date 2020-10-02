@@ -4,15 +4,27 @@ import com.jitterted.tawny.domain.Position;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.format.annotation.DateTimeFormat;
 
+import javax.validation.constraints.FutureOrPresent;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.Pattern;
 import java.time.OffsetDateTime;
 
 public class OpenPositionForm {
   private String underlyingSymbol;
+
+  @Pattern(regexp = "[CPcp]")
   private String optionType;
+
+  @Min(1)
   private int quantity;
+
   @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
+  @FutureOrPresent
   private OffsetDateTime expiration;
+
+  @Min(1)
   private int strikePrice;
+
   private int unitCost;
 
   @NotNull

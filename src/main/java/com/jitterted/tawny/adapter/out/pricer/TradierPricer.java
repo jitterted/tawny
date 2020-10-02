@@ -2,14 +2,41 @@ package com.jitterted.tawny.adapter.out.pricer;
 
 import com.jitterted.tawny.domain.Contract;
 import com.jitterted.tawny.domain.Pricer;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
 import java.math.BigDecimal;
+import java.util.Collections;
+import java.util.List;
 
 @Service
 public class TradierPricer implements Pricer {
+
+  private final RestTemplate restTemplate = new RestTemplate();
+
   @Override
   public BigDecimal fetchPriceQuote(Contract contract) {
-    return null;
+    HttpHeaders headers = new HttpHeaders();
+    headers.setAccept(Collections.singletonList(MediaType.APPLICATION_XML));
+    headers.set("Authorization", "Bearer " + "Lk8GquRZ1i5n2MwAsYCAo2g1HSfR");
+
+    String optionSymbol = new ContractToOptionSymbolConverter().symbolFor(contract);
+    String url = "https://sandbox.tradier.com/v1/markets/quotes?symbols=" + optionSymbol;
+
+    HttpEntity<String> requestEntity = new HttpEntity<>(headers);
+    ResponseEntity<Quotes> quotesResponse = restTemplate.exchange(
+        url, HttpMethod.GET, requestEntity, Quotes.class);
+
+    List<Quote> quotes = quotesResponse.getBody().getQuote();
+    if (quotes == null) {
+      return BigDecimal.ZERO;
+    }
+
+    return quotes.get(0).getLast();
   }
 }

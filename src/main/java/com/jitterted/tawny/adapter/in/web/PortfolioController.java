@@ -9,6 +9,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import javax.validation.Valid;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -41,7 +42,7 @@ public class PortfolioController {
   }
 
   @PostMapping("/open-position")
-  public String handleOpenPosition(OpenPositionForm openPositionForm) {
+  public String handleOpenPosition(@Valid OpenPositionForm openPositionForm) {
     Position position = OpenPositionForm.toPosition(openPositionForm);
     portfolio.add(position);
     return "redirect:/view";
