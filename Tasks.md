@@ -1,3 +1,11 @@
+## To Do
+
+[ ] Replace LocalDate for expiration with a Value Object called Expiration
+
+[ ] Add ArchUnit to enforce proper separation/dependencies for Hexagonal Architecture
+
+## Completed
+
 [X] Integration Test (mockmvc) to check for the endpoint 
 [X] Test the view method in the controller for the data in the model
 [X] Create Thymeleaf template to display the view
@@ -8,5 +16,3 @@
     [X] View needs to use stored information
 [X] Form for input of Open Position
 
-
-[ ] Add ArchUnit to enforce proper separation/dependencies for Hexagonal Architecture

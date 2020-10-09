@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import javax.validation.Valid;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -19,11 +20,13 @@ public class PortfolioController {
 
   private final Portfolio portfolio;
   private final Pricer pricer;
+  private final ExpirationsFetcher expirationsFetcher;
 
   @Autowired
-  public PortfolioController(Portfolio portfolio, Pricer pricer) {
+  public PortfolioController(Portfolio portfolio, Pricer pricer, ExpirationsFetcher expirationsFetcher) {
     this.portfolio = portfolio;
     this.pricer = pricer;
+    this.expirationsFetcher = expirationsFetcher;
   }
 
   @GetMapping("/view")
@@ -38,6 +41,7 @@ public class PortfolioController {
   @GetMapping("/open-position")
   public String openPosition(Model model) {
     model.addAttribute("openPositionForm", new OpenPositionForm());
+    model.addAttribute("expirations", expirationsFetcher.fetchFor("AAPL"));
     return "open-position";
   }
 
@@ -51,5 +55,9 @@ public class PortfolioController {
   private PositionView enrichWithLastPrice(Position position) {
     Money lastPrice = pricer.fetchPriceQuote(position.contract());
     return PositionView.fromDomain(position, lastPrice);
+  }
+
+  public List<LocalDate> expirationsFor(String symbol) {
+    return expirationsFetcher.fetchFor(symbol);
   }
 }

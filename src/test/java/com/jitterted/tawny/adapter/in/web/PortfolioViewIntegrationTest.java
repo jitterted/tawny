@@ -30,6 +30,9 @@ public class PortfolioViewIntegrationTest {
   @MockBean
   Pricer pricer;
 
+  @MockBean
+  ExpirationsFetcher expirationsFetcher;
+
   @Test
   public void givenNewPortfolioViewModelContainsEmptyPositionList() throws Exception {
     MvcResult mvcResult = mockMvc.perform(get("/view"))

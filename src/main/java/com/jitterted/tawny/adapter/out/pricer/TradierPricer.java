@@ -1,9 +1,11 @@
 package com.jitterted.tawny.adapter.out.pricer;
 
+import com.jitterted.tawny.TradierConfig;
 import com.jitterted.tawny.domain.Contract;
 import com.jitterted.tawny.domain.Pricer;
 import com.jitterted.tawny.domain.UsMoney;
 import org.joda.money.Money;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -20,12 +22,18 @@ import java.util.List;
 public class TradierPricer implements Pricer {
 
   private final RestTemplate restTemplate = new RestTemplate();
+  private final TradierConfig tradierConfig;
+
+  @Autowired
+  public TradierPricer(TradierConfig tradierConfig) {
+    this.tradierConfig = tradierConfig;
+  }
 
   @Override
   public Money fetchPriceQuote(Contract contract) {
     HttpHeaders headers = new HttpHeaders();
     headers.setAccept(Collections.singletonList(MediaType.APPLICATION_XML));
-    headers.set("Authorization", "Bearer " + "Lk8GquRZ1i5n2MwAsYCAo2g1HSfR");
+    headers.set("Authorization", "Bearer " + tradierConfig.getAccessToken());
 
     String optionSymbol = new ContractToOptionSymbolConverter().symbolFor(contract);
     String url = "https://sandbox.tradier.com/v1/markets/quotes?symbols=" + optionSymbol;

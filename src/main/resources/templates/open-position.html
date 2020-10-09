@@ -14,7 +14,17 @@
   <p>Symbol: <input type="text" th:field="*{underlyingSymbol}"/></p>
   <p>C/P: <input type="text" th:field="*{optionType}"></p>
   <p>Qty: <input type="number" th:field="*{quantity}"></p>
-  <p>Expiration: <input type="text" th:field="*{expiration}"></p>
+<!--  <p>Expiration: <input type="text" th:field="*{expiration}"></p>-->
+
+  <p>Expiration:
+    <select th:field="*{expiration}" id="expiration">
+    <option th:each="expiration : ${expirations}"
+            th:value="${expiration}"
+            th:text="${expiration}">expiration
+    </option>
+  </select>
+  </p>
+  
   <p>Strike: <input type="text" th:field="*{strikePrice}"></p>
   <p>Price: <input type="text" th:field="*{unitCost}"></p>
 

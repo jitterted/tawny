@@ -1,6 +1,7 @@
 package com.jitterted.tawny.adapter.in.web;
 
-import com.jitterted.tawny.domain.NewYorkTimeConstants;
+import com.jitterted.tawny.domain.DateConstants;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -20,6 +21,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @SpringBootTest
 @AutoConfigureMockMvc
+@Tag("integration")
 public class PortfolioViewE2eTest {
 
   @Autowired
@@ -31,7 +33,7 @@ public class PortfolioViewE2eTest {
     formParams.add("underlyingSymbol", "AMD");
     formParams.add("optionType", "C"); // radio button choice
     formParams.add("quantity", "10");
-    formParams.add("expiration", NewYorkTimeConstants.OCT_16_2020.toString());
+    formParams.add("expiration", DateConstants.OCT_16_2020.toString());
     formParams.add("strikePrice", "75");
     formParams.add("unitCost", "5");
 

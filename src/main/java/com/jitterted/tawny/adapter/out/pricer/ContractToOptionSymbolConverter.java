@@ -3,7 +3,7 @@ package com.jitterted.tawny.adapter.out.pricer;
 import com.jitterted.tawny.domain.Contract;
 import org.jetbrains.annotations.NotNull;
 
-import java.time.OffsetDateTime;
+import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 public class ContractToOptionSymbolConverter {
@@ -22,7 +22,7 @@ public class ContractToOptionSymbolConverter {
     return String.format("%05d000", contract.strikePrice());
   }
 
-  private String formatDate(OffsetDateTime dateTime) {
+  private String formatDate(LocalDate dateTime) {
     return dateTime.format(OPTION_DATE_FORMAT);
   }
 }

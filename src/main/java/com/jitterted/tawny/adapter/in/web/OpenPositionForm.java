@@ -9,7 +9,7 @@ import javax.validation.constraints.FutureOrPresent;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.Pattern;
 import java.math.BigDecimal;
-import java.time.OffsetDateTime;
+import java.time.LocalDate;
 
 public class OpenPositionForm {
   private String underlyingSymbol;
@@ -20,9 +20,9 @@ public class OpenPositionForm {
   @Min(1)
   private int quantity;
 
-  @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
+  @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
   @FutureOrPresent
-  private OffsetDateTime expiration;
+  private LocalDate expiration;
 
   @Min(1)
   private int strikePrice;
@@ -63,11 +63,11 @@ public class OpenPositionForm {
     this.quantity = quantity;
   }
 
-  public OffsetDateTime getExpiration() {
+  public LocalDate getExpiration() {
     return expiration;
   }
 
-  public void setExpiration(OffsetDateTime expiration) {
+  public void setExpiration(LocalDate expiration) {
     this.expiration = expiration;
   }
 

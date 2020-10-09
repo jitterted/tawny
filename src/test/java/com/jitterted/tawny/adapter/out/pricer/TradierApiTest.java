@@ -1,7 +1,8 @@
 package com.jitterted.tawny.adapter.out.pricer;
 
 import com.jitterted.tawny.domain.Contract;
-import com.jitterted.tawny.domain.NewYorkTimeConstants;
+import com.jitterted.tawny.domain.DateConstants;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -20,6 +21,7 @@ import static org.assertj.core.api.Assertions.*;
 
 // random_port thingy here is required to autowire a TestRestTemplate
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@Tag("integration")
 public class TradierApiTest {
 
   @Autowired
@@ -31,7 +33,7 @@ public class TradierApiTest {
     headers.setAccept(Collections.singletonList(MediaType.APPLICATION_XML));
     headers.set("Authorization", "Bearer " + "Lk8GquRZ1i5n2MwAsYCAo2g1HSfR");
     String optionSymbol = new ContractToOptionSymbolConverter().symbolFor(
-        new Contract("AMD", "C", NewYorkTimeConstants.OCT_16_2020, 75)
+        new Contract("AMD", "C", DateConstants.OCT_16_2020, 75)
     );
     String url = "https://sandbox.tradier.com/v1/markets/quotes?symbols=" + optionSymbol + ",AAPL,AMD";
     HttpEntity<String> requestEntity = new HttpEntity<>(headers);

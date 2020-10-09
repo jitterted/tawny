@@ -4,13 +4,13 @@ import org.joda.money.CurrencyUnit;
 import org.joda.money.Money;
 import org.junit.jupiter.api.Test;
 
-import java.time.OffsetDateTime;
+import java.time.LocalDate;
 
 import static org.assertj.core.api.Assertions.*;
 
 class PositionTotalCostTest {
 
-  private static final OffsetDateTime DUMMY_EXPIRATION = OffsetDateTime.now();
+  private static final LocalDate DUMMY_EXPIRATION = LocalDate.EPOCH;
   private static final int DUMMY_STRIKE_PRICE = 0;
   private static final String DUMMY_SYMBOL = "";
   private static final String DUMMY_OPTION_TYPE = "";

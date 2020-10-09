@@ -2,7 +2,7 @@ package com.jitterted.tawny.domain;
 
 import org.joda.money.Money;
 
-import java.time.OffsetDateTime;
+import java.time.LocalDate;
 
 public class Position {
 
@@ -16,7 +16,7 @@ public class Position {
   public Position(String underlyingSymbol,
                   String contractType,
                   int quantity,
-                  OffsetDateTime expirationDate,
+                  LocalDate expirationDate,
                   int strikePrice,
                   Money unitCost) {
     this.contract = new Contract(underlyingSymbol, contractType, expirationDate, strikePrice);
