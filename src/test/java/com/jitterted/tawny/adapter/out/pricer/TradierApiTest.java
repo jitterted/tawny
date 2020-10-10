@@ -1,5 +1,6 @@
 package com.jitterted.tawny.adapter.out.pricer;
 
+import com.jitterted.tawny.TradierConfig;
 import com.jitterted.tawny.domain.Contract;
 import com.jitterted.tawny.domain.DateConstants;
 import org.junit.jupiter.api.Tag;
@@ -27,11 +28,14 @@ public class TradierApiTest {
   @Autowired
   private TestRestTemplate testRestTemplate;
 
+  @Autowired
+  private TradierConfig tradierConfig;
+
   @Test
   public void requestOptionQuoteViaXmlApiReturnsQuote() throws Exception {
     HttpHeaders headers = new HttpHeaders();
     headers.setAccept(Collections.singletonList(MediaType.APPLICATION_XML));
-    headers.set("Authorization", "Bearer " + "Lk8GquRZ1i5n2MwAsYCAo2g1HSfR");
+    headers.set("Authorization", "Bearer " + tradierConfig.getAccessToken());
     String optionSymbol = new ContractToOptionSymbolConverter().symbolFor(
         new Contract("AMD", "C", DateConstants.OCT_16_2020, 75)
     );

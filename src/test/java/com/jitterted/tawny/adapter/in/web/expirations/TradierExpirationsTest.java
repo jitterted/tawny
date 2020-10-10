@@ -54,9 +54,7 @@ class TradierExpirationsTest {
         .contains(LocalDate.of(2020, 10, 16), LocalDate.of(2020, 11, 20), LocalDate.of(2023, 1, 20));
 
     assertThat(expirations.get(0).getDate())
-        .isEqualTo("2020-10-09");
-    assertThat(expirations.get(0).getStrikes().getStrike().get(0))
-        .isEqualByComparingTo("40");
+        .isEqualTo("2020-10-16");
     assertThat(expirations.get(0).getStrikes().getStrike())
         .usingElementComparator(BigDecimal::compareTo)
         .contains(BigDecimal.valueOf(45), BigDecimal.valueOf(50), BigDecimal.valueOf(74));

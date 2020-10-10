@@ -1,5 +1,6 @@
 package com.jitterted.tawny.adapter.in.web;
 
+import com.jitterted.tawny.TradierConfig;
 import com.jitterted.tawny.domain.DateConstants;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
@@ -26,6 +27,15 @@ public class PortfolioViewE2eTest {
 
   @Autowired
   MockMvc mockMvc;
+
+  @Autowired
+  private TradierConfig tradierConfig;
+
+  @Test
+  public void tradierConfig() throws Exception {
+    assertThat(tradierConfig.getAccessToken())
+        .isNotBlank();
+  }
 
   @Test
   public void postFormToOpenPositionShowsInformationOnView() throws Exception {
