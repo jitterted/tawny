@@ -1,6 +1,7 @@
 package com.jitterted.tawny.adapter.in.web.expirations;
 
 import com.jitterted.tawny.TradierConfig;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -10,7 +11,6 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.test.context.TestPropertySource;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -21,7 +21,7 @@ import java.util.stream.Collectors;
 import static org.assertj.core.api.Assertions.*;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-@TestPropertySource(properties = "tradier.accessToken=rW8bLnGTqUyyyyyEaGPduzOR06Nh")
+@Tag("integration")
 class TradierExpirationsTest {
 
   @Autowired

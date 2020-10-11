@@ -2,6 +2,7 @@ package com.jitterted.tawny.adapter.in.web;
 
 import com.jitterted.tawny.domain.Portfolio;
 import com.jitterted.tawny.domain.Pricer;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -19,6 +20,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @SuppressWarnings("unchecked")
 @WebMvcTest
+@Tag("integration")
 public class PortfolioViewIntegrationTest {
 
   @Autowired
