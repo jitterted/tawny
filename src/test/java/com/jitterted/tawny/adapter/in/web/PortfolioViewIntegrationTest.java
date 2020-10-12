@@ -63,5 +63,16 @@ public class PortfolioViewIntegrationTest {
         .contains("<form");
   }
 
+  @Test
+  public void rollPositionPageShowsForm() throws Exception {
+    MvcResult mvcResult = mockMvc.perform(get("/roll-position"))
+                                 .andExpect(status().isOk())
+                                 .andExpect(view().name("roll-position"))
+                                 .andExpect(model().attributeExists("rollPositionForm"))
+                                 .andReturn();
+
+    assertThat(mvcResult.getResponse().getContentAsString())
+        .contains("<form");
+  }
 
 }

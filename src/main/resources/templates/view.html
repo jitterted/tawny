@@ -32,6 +32,7 @@
 <table class="mb-4">
   <thead>
   <tr>
+    <th>Actions</th>
     <th>Underlying</th>
     <th>Type</th>
     <th>Qty</th>
@@ -47,6 +48,13 @@
   </thead>
   <tbody>
   <tr th:each="position : ${positions}">
+    <td>
+      <button class="bg-blue-600 hover:bg-blue-800 disabled:opacity-50 text-white px-4 rounded" disabled>Close</button>
+      <a href="/roll-position"
+         class="bg-blue-600 hover:bg-blue-800 text-white px-4 rounded" th:disabled="${position.rollDisabled}">
+        Roll
+      </a>
+    </td>
     <td th:text="${position.underlyingSymbol}">AAPL</td>
     <td th:text="${position.contractType}">C</td>
     <td th:text="${position.quantity}">1</td>

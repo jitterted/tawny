@@ -41,8 +41,12 @@ public class PortfolioController {
   @GetMapping("/open-position")
   public String openPosition(Model model) {
     model.addAttribute("openPositionForm", new OpenPositionForm());
-    model.addAttribute("expirations", expirationsFetcher.fetchFor("AAPL"));
+    addExpirationsTo(model);
     return "open-position";
+  }
+
+  private void addExpirationsTo(Model model) {
+    model.addAttribute("expirations", expirationsFetcher.fetchFor("AAPL"));
   }
 
   @PostMapping("/open-position")
@@ -50,6 +54,14 @@ public class PortfolioController {
     Position position = OpenPositionForm.toPosition(openPositionForm);
     portfolio.add(position);
     return "redirect:/view";
+  }
+
+  @GetMapping("/roll-position")
+  public String rollPosition(Model model) {
+    model.addAttribute("underlyingSymbol", "invalid symbol");
+    model.addAttribute("rollPositionForm", new RollPositionForm());
+    addExpirationsTo(model);
+    return "roll-position";
   }
 
   private PositionView enrichWithLastPrice(Position position) {

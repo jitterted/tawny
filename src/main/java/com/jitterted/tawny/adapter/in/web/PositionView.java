@@ -17,6 +17,7 @@ class PositionView {
   private final String currentValue;
   private final String valueGain;
   private final String valuePercentageGain;
+  private final boolean rollDisabled;
 
   private static final MoneyFormatter USD_FORMATTER =
       new MoneyFormatterBuilder().appendCurrencySymbolLocalized()
@@ -24,7 +25,7 @@ class PositionView {
                                  .toFormatter();
 
 
-  public PositionView(String underlyingSymbol, String contractType, String quantity, String expiration, String strikePrice, String unitCost, String totalCost, String currentOptionPrice, String currentValue, String valueGain, String valuePercentageGain) {
+  public PositionView(String underlyingSymbol, String contractType, String quantity, String expiration, String strikePrice, String unitCost, String totalCost, String currentOptionPrice, String currentValue, String valueGain, String valuePercentageGain, boolean rollDisabled) {
     this.underlyingSymbol = underlyingSymbol;
     this.contractType = contractType;
     this.quantity = quantity;
@@ -36,6 +37,7 @@ class PositionView {
     this.currentValue = currentValue;
     this.valueGain = valueGain;
     this.valuePercentageGain = valuePercentageGain;
+    this.rollDisabled = rollDisabled;
   }
 
   public static PositionView fromDomain(Position position, Money lastPrice) {
@@ -49,8 +51,8 @@ class PositionView {
                             USD_FORMATTER.print(lastPrice),
                             USD_FORMATTER.print(position.currentValue(lastPrice)),
                             "0",
-                            "0"
-    );
+                            "0",
+                            position.isClosed());
   }
 
   public String getUnderlyingSymbol() {
@@ -148,5 +150,9 @@ class PositionView {
     result = 31 * result + valueGain.hashCode();
     result = 31 * result + valuePercentageGain.hashCode();
     return result;
+  }
+
+  public boolean isRollDisabled() {
+    return rollDisabled;
   }
 }
