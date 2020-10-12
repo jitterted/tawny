@@ -3,7 +3,6 @@ package com.jitterted.tawny.domain;
 import org.joda.money.Money;
 
 import java.time.LocalDate;
-import java.util.Optional;
 
 public class Position {
 
@@ -13,7 +12,6 @@ public class Position {
 
   private final int quantity;
   private final Money unitCost;
-  private Optional<Position> previousPosition = Optional.empty();
   private Money closeCost;
 
   public Position(String underlyingSymbol,
@@ -27,17 +25,6 @@ public class Position {
     this.unitCost = unitCost;
   }
 
-  public Position(Position previousPosition, int newQuantity, LocalDate newExpiration, int newStrike, Money rolledOpenCost) {
-    this(previousPosition.contract().underlyingSymbol(),
-         previousPosition.contract().contractType(),
-         newQuantity,
-         newExpiration,
-         newStrike,
-         rolledOpenCost
-         );
-    this.previousPosition = Optional.of(previousPosition);
-  }
-
   public int quantity() {
     return quantity;
   }
@@ -47,9 +34,7 @@ public class Position {
   }
 
   public Money unitCost() {
-    Money netCost = previousPosition.map(Position::unitGain)
-                                    .orElse(UsMoney.zero());
-    return unitCost.minus(netCost);
+    return unitCost;
   }
 
   public Money totalCost() {

@@ -15,11 +15,11 @@ public class UsMoney {
     return Money.of(CurrencyUnit.USD, lastPriceConstant);
   }
 
-  public static Money zero() {
-    return ZERO;
-  }
-
   public static Money $(BigDecimal bigDecimal) {
     return Money.of(CurrencyUnit.USD, bigDecimal);
+  }
+
+  public static Money zero() {
+    return ZERO;
   }
 }
