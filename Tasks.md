@@ -1,10 +1,20 @@
 ## To Do
 
+[X] Add ID to Position
+
+[ ] Move "roll" method over to Portfolio, so it can keep track of the new position as well
+
+[X] Provide findByPositionId() method in Portfolio for use by the PortfolioController
+
+[ ] Add ID for each position to view page as part of the button to close/roll link
+
+[ ] The roll position GET mapped method will take in that ID to use for the roll 
+
 ### Features
 
-[ ] Close Position
+[X] Close Position
 
-[ ] Close+Open Position: new position is linked to old position, 
+[X] Close+Open Position: new position is linked to old position, 
     cost is calculated based on difference
 
 [ ] Tracking rolled positions:

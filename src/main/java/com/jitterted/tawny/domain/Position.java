@@ -3,10 +3,13 @@ package com.jitterted.tawny.domain;
 import org.joda.money.Money;
 
 import java.time.LocalDate;
+import java.util.Objects;
 
 public class Position {
 
   private static final int SHARES_PER_OPTION = 100;
+
+  private Long id;
 
   private final Contract contract;
 
@@ -57,5 +60,28 @@ public class Position {
 
   public boolean isClosed() {
     return closeCost != null;
+  }
+
+  public Long getId() {
+    return id;
+  }
+
+  public void setId(Long id) {
+    this.id = id;
+  }
+
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) return true;
+    if (o == null || getClass() != o.getClass()) return false;
+
+    Position position = (Position) o;
+
+    return Objects.equals(id, position.id);
+  }
+
+  @Override
+  public int hashCode() {
+    return id != null ? id.hashCode() : -1;
   }
 }
