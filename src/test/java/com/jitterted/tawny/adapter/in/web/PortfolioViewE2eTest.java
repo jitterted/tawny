@@ -13,7 +13,7 @@ import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 
-import java.util.Collection;
+import java.util.List;
 
 import static org.assertj.core.api.Assertions.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -41,7 +41,7 @@ public class PortfolioViewE2eTest {
   public void postFormToOpenPositionShowsInformationOnView() throws Exception {
     MultiValueMap<String, String> formParams = new LinkedMultiValueMap<>();
     formParams.add("underlyingSymbol", "AMD");
-    formParams.add("optionType", "C"); // radio button choice
+    formParams.add("optionType", "C"); // TODO: radio button choice
     formParams.add("quantity", "10");
     formParams.add("expiration", DateConstants.OCT_16_2020.toString());
     formParams.add("strikePrice", "75");
@@ -55,7 +55,7 @@ public class PortfolioViewE2eTest {
     MvcResult mvcResult = mockMvc.perform(get("/view"))
                                  .andReturn();
 
-    Collection<String> positions = (Collection<String>)
+    List<String> positions = (List<String>)
         mvcResult.getModelAndView()
                  .getModel()
                  .get("positions");

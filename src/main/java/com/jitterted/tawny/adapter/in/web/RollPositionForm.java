@@ -1,5 +1,6 @@
 package com.jitterted.tawny.adapter.in.web;
 
+import com.jitterted.tawny.domain.Position;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.validation.constraints.FutureOrPresent;
@@ -21,6 +22,10 @@ public class RollPositionForm {
   private BigDecimal closeCost;
 
   private BigDecimal openCost;
+
+  public RollPositionForm(Position position) {
+    quantity = position.quantity();
+  }
 
   public int getQuantity() {
     return quantity;

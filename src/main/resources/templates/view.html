@@ -50,16 +50,17 @@
   <tr th:each="position : ${positions}">
     <td>
       <button class="bg-blue-600 hover:bg-blue-800 disabled:opacity-50 text-white px-4 rounded" disabled>Close</button>
-      <a href="/roll-position"
+      <a href="/roll-position/123"
+         th:href="@{/roll-position/__${position.id}__}"
          class="bg-blue-600 hover:bg-blue-800 text-white px-4 rounded" th:disabled="${position.rollDisabled}">
         Roll
       </a>
     </td>
-    <td th:text="${position.underlyingSymbol}">AAPL</td>
-    <td th:text="${position.contractType}">C</td>
+    <td th:text="${position.contract.underlyingSymbol}">AAPL</td>
+    <td th:text="${position.contract.contractType}">C</td>
     <td th:text="${position.quantity}">1</td>
-    <td th:text="${position.expiration}">Expiration</td>
-    <td th:text="${position.strikePrice}">125.00</td>
+    <td th:text="${position.contract.expiration}">Expiration</td>
+    <td th:text="${position.contract.strikePrice}">125.00</td>
     <td th:text="${position.unitCost}">6.40</td>
     <td th:text="${position.totalCost}">640.00</td>
     <td th:text="${position.currentOptionPrice}">6.35</td>

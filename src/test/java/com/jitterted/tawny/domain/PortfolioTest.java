@@ -27,7 +27,7 @@ class PortfolioTest {
     portfolio.add(new Position("TED", "C", 5, DateConstants.OCT_16_2020,
                                125, UsMoney.$(15)));
 
-    Optional<Position> positionFoundById = portfolio.findById(1);
+    Optional<Position> positionFoundById = portfolio.findById(1L);
 
     assertThat(positionFoundById)
         .isNotEmpty();

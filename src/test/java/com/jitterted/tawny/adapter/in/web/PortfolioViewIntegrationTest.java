@@ -1,6 +1,7 @@
 package com.jitterted.tawny.adapter.in.web;
 
 import com.jitterted.tawny.domain.Portfolio;
+import com.jitterted.tawny.domain.Position;
 import com.jitterted.tawny.domain.Pricer;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
@@ -11,8 +12,11 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 
 import java.util.Collection;
+import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.anyLong;
+import static org.mockito.BDDMockito.given;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -65,7 +69,10 @@ public class PortfolioViewIntegrationTest {
 
   @Test
   public void rollPositionPageShowsForm() throws Exception {
-    MvcResult mvcResult = mockMvc.perform(get("/roll-position"))
+    Position position = new Position("", "", 0, null, 0, null);
+    given(portfolio.findById(anyLong())).willReturn(Optional.of(position));
+
+    MvcResult mvcResult = mockMvc.perform(get("/roll-position/0"))
                                  .andExpect(status().isOk())
                                  .andExpect(view().name("roll-position"))
                                  .andExpect(model().attributeExists("rollPositionForm"))

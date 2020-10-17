@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import javax.validation.Valid;
@@ -56,10 +57,11 @@ public class PortfolioController {
     return "redirect:/view";
   }
 
-  @GetMapping("/roll-position")
-  public String rollPosition(Model model) {
-    model.addAttribute("underlyingSymbol", "invalid symbol");
-    model.addAttribute("rollPositionForm", new RollPositionForm());
+  @GetMapping("/roll-position/{id}")
+  public String rollPosition(Model model, @PathVariable String id) {
+    Position position = portfolio.findById(Long.parseLong(id)).orElseThrow();
+    model.addAttribute("contract", ContractView.from(position.contract()));
+    model.addAttribute("rollPositionForm", new RollPositionForm(position));
     addExpirationsTo(model);
     return "roll-position";
   }

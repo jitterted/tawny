@@ -1,18 +1,26 @@
 ## To Do
 
-[X] Add ID to Position
+[ ] Make Portfolio the Aggregate Root 
 
-[ ] Move "roll" method over to Portfolio, so it can keep track of the new position as well
+   [ ] Move "roll" method over to Portfolio, so it can keep track of the new position as well
 
-[X] Provide findByPositionId() method in Portfolio for use by the PortfolioController
+   [X] Move factory creation method of Position to Portfolio
 
-[ ] Add ID for each position to view page as part of the button to close/roll link
+[ ] Real persistence!
 
-[ ] The roll position GET mapped method will take in that ID to use for the roll 
+[ ] Show gain(loss) based on the current price
+
+[ ] Line up/right-align numbers on the view page (and use the number font as well)
+
+[ ] Close position from UI: needs link with ID, controller handler, etc.
+
+[ ] Note that after rolling, we'll see the original position in the view, 
+    whereas it really needs to be a Composite structure, i.e., tree-like,
+    so it can be expanded when I want to see the details, but collapsed by default 
 
 ### Features
 
-[X] Close Position
+[X] Close Position - domain-level is done
 
 [X] Close+Open Position: new position is linked to old position, 
     cost is calculated based on difference
@@ -70,4 +78,12 @@
     [X] Store received form input
     [X] View needs to use stored information
 [X] Form for input of Open Position
+
+[X] Add ID to Position
+[X] Provide findByPositionId() method in Portfolio for use by the PortfolioController
+
+[X] Add ID for each position to view page as part of the button to roll link
+
+[X] The roll position GET mapped method will take in that ID to use for the roll 
+
 

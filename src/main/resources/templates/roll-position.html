@@ -7,7 +7,10 @@
 <body>
 <h1>Roll Position</h1>
 
-<h2>Rolling <span th:text="${underlyingSymbol}">AMD</span></h2>
+<p>Symbol: <span th:text="${contract.underlyingSymbol}">AAPL</span></p>
+<p>Type: <span th:text="${contract.contractType}">C</span></p>
+<p>Expiration: <span th:text="${contract.expiration}">Expiration</span></p>
+<p>Strike: <span th:text="${contract.strikePrice}">125.00</span></p>
 
 <form method="post" action="/roll-position"
       th:action="@{/roll-position}"
