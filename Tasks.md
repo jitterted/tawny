@@ -18,6 +18,8 @@
     whereas it really needs to be a Composite structure, i.e., tree-like,
     so it can be expanded when I want to see the details, but collapsed by default 
 
+[ ] Start trying to use https://github.com/xmolecules/jmolecules
+
 ### Features
 
 [X] Close Position - domain-level is done

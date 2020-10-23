@@ -43,7 +43,7 @@ public class PortfolioViewE2eTest {
     formParams.add("underlyingSymbol", "AMD");
     formParams.add("optionType", "C"); // TODO: radio button choice
     formParams.add("quantity", "10");
-    formParams.add("expiration", DateConstants.OCT_16_2020.toString());
+    formParams.add("expiration", DateConstants.JAN_20_2023.toString());
     formParams.add("strikePrice", "75");
     formParams.add("unitCost", "5");
 

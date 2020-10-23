@@ -22,6 +22,7 @@ import static org.assertj.core.api.Assertions.*;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @Tag("external-api")
+@Tag("integration")
 class TradierExpirationsTest {
 
   @Autowired

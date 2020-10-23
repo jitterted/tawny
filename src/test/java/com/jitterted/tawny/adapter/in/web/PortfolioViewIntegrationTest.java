@@ -3,6 +3,7 @@ package com.jitterted.tawny.adapter.in.web;
 import com.jitterted.tawny.domain.Portfolio;
 import com.jitterted.tawny.domain.Position;
 import com.jitterted.tawny.domain.Pricer;
+import com.jitterted.tawny.domain.UsMoney;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +12,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 
+import java.time.LocalDate;
 import java.util.Collection;
 import java.util.Optional;
 
@@ -69,7 +71,7 @@ public class PortfolioViewIntegrationTest {
 
   @Test
   public void rollPositionPageShowsForm() throws Exception {
-    Position position = new Position("", "", 0, null, 0, null);
+    Position position = new Position("", "", 0, LocalDate.now(), 0, UsMoney.zero());
     given(portfolio.findById(anyLong())).willReturn(Optional.of(position));
 
     MvcResult mvcResult = mockMvc.perform(get("/roll-position/0"))

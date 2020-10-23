@@ -22,6 +22,7 @@ import static org.assertj.core.api.Assertions.*;
 
 // random_port thingy here is required to autowire a TestRestTemplate
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@Tag("external-api")
 @Tag("integration")
 public class TradierApiTest {
 
@@ -37,7 +38,7 @@ public class TradierApiTest {
     headers.setAccept(Collections.singletonList(MediaType.APPLICATION_XML));
     headers.set("Authorization", "Bearer " + tradierConfig.getAccessToken());
     String optionSymbol = new ContractToOptionSymbolConverter().symbolFor(
-        new Contract("AMD", "C", DateConstants.OCT_16_2020, 75)
+        new Contract("AMD", "C", DateConstants.JAN_20_2023, 75)
     );
     String url = "https://sandbox.tradier.com/v1/markets/quotes?symbols=" + optionSymbol + ",AAPL,AMD";
     HttpEntity<String> requestEntity = new HttpEntity<>(headers);
