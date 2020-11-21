@@ -5,6 +5,7 @@ import com.jitterted.tawny.domain.Portfolio;
 import com.jitterted.tawny.domain.Position;
 import com.jitterted.tawny.domain.Pricer;
 import com.jitterted.tawny.domain.UsMoney;
+import com.jitterted.tawny.domain.port.PortfolioRepository;
 import org.jetbrains.annotations.NotNull;
 import org.junit.jupiter.api.Test;
 import org.springframework.ui.ConcurrentModel;
@@ -22,13 +23,15 @@ class PortfolioControllerTest {
 
   private static final Pricer STUB_0_00_PRICER = symbol -> UsMoney.zero();
 
-  private ExpirationsFetcher npeDummyExpirationsFetcher = null;
+  private final ExpirationsFetcher npeDummyExpirationsFetcher = null;
 
   @Test
   public void givenSingleOpenPositionViewReturnsPosition() throws Exception {
     Portfolio portfolio = new Portfolio();
     portfolio.openPosition("AAPL", "C", 1, DateConstants.OCT_16_2020, 125, UsMoney.$(6));
-    PortfolioController portfolioController = new PortfolioController(portfolio, STUB_0_00_PRICER, npeDummyExpirationsFetcher);
+
+    PortfolioRepository portfolioRepository = new FakePortfolioRepository(portfolio);
+    PortfolioController portfolioController = new PortfolioController(portfolioRepository, STUB_0_00_PRICER, npeDummyExpirationsFetcher);
 
     Collection<PositionView> positions = positionsFromViewModel(portfolioController);
 
@@ -42,9 +45,10 @@ class PortfolioControllerTest {
   @Test
   public void givenSingleClosedPositionViewHasRollButtonDisabled() throws Exception {
     Portfolio portfolio = new Portfolio();
+    PortfolioRepository portfolioRepository = new FakePortfolioRepository(portfolio);
     Position position = portfolio.openPosition("AAPL", "C", 1, DateConstants.OCT_16_2020, 125, UsMoney.$(6));
     position.close(UsMoney.$(8));
-    PortfolioController portfolioController = new PortfolioController(portfolio, STUB_0_00_PRICER, npeDummyExpirationsFetcher);
+    PortfolioController portfolioController = new PortfolioController(portfolioRepository, STUB_0_00_PRICER, npeDummyExpirationsFetcher);
 
     List<PositionView> positions = positionsFromViewModel(portfolioController);
 
@@ -57,7 +61,8 @@ class PortfolioControllerTest {
     Portfolio portfolio = new Portfolio();
     portfolio.openPosition("AAPL", "C", 1, DateConstants.OCT_16_2020, 125, UsMoney.$(6));
     portfolio.openPosition("AMD", "C", 10, DateConstants.OCT_16_2020, 80, UsMoney.$(2));
-    PortfolioController portfolioController = new PortfolioController(portfolio, STUB_0_00_PRICER, npeDummyExpirationsFetcher);
+    PortfolioRepository portfolioRepository = new FakePortfolioRepository(portfolio);
+    PortfolioController portfolioController = new PortfolioController(portfolioRepository, STUB_0_00_PRICER, npeDummyExpirationsFetcher);
 
     Collection<PositionView> positions = positionsFromViewModel(portfolioController);
 
@@ -74,7 +79,8 @@ class PortfolioControllerTest {
 
   @Test
   public void submitOpenPositionThenViewShowsPosition() throws Exception {
-    PortfolioController portfolioController = new PortfolioController(new Portfolio(), STUB_0_00_PRICER, npeDummyExpirationsFetcher);
+    PortfolioRepository portfolioRepository = new FakePortfolioRepository(new Portfolio());
+    PortfolioController portfolioController = new PortfolioController(portfolioRepository, STUB_0_00_PRICER, npeDummyExpirationsFetcher);
     OpenPositionForm openPositionForm = new OpenPositionForm();
     openPositionForm.setUnderlyingSymbol("AMD");
     openPositionForm.setExpiration(DateConstants.OCT_16_2020);
@@ -98,11 +104,12 @@ class PortfolioControllerTest {
   @Test
   public void currentValueOfPositionComesFromPricerPort() throws Exception {
     Portfolio portfolio = new Portfolio();
+    PortfolioRepository portfolioRepository = new FakePortfolioRepository(portfolio);
     int quantity = 10;
     portfolio.openPosition("AMD", "C", quantity, DateConstants.OCT_16_2020, 80, UsMoney.$(2));
     int lastPriceForOption = 3;
     StubPricer stubPricer = new StubPricer(lastPriceForOption);
-    PortfolioController portfolioController = new PortfolioController(portfolio, stubPricer, npeDummyExpirationsFetcher);
+    PortfolioController portfolioController = new PortfolioController(portfolioRepository, stubPricer, npeDummyExpirationsFetcher);
 
     Collection<PositionView> positionViews = positionsFromViewModel(portfolioController);
 
@@ -120,10 +127,11 @@ class PortfolioControllerTest {
   @Test
   public void rollPositionFormHasPositionToBeRolled() throws Exception {
     Portfolio portfolio = new Portfolio();
+    PortfolioRepository portfolioRepository = new FakePortfolioRepository(portfolio);
     Position amdPosition = portfolio.openPosition("AMD", "C", 1, DateConstants.OCT_16_2020, 80, UsMoney.$(2));
 
     PortfolioController portfolioController = new PortfolioController(
-        portfolio, STUB_0_00_PRICER, new StubExpirationsFetcher(Collections.singletonList(DateConstants.OCT_16_2020)));
+        portfolioRepository, STUB_0_00_PRICER, new StubExpirationsFetcher(Collections.singletonList(DateConstants.OCT_16_2020)));
 
     Model model = new ConcurrentModel();
     portfolioController.rollPosition(model, "0");

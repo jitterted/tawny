@@ -1,5 +1,6 @@
 package com.jitterted.tawny.domain;
 
+import com.jitterted.tawny.domain.port.PortfolioId;
 import org.joda.money.Money;
 
 import java.time.LocalDate;
@@ -12,6 +13,7 @@ import java.util.stream.Stream;
 public class Portfolio {
   private final List<Position> positions = new ArrayList<>();
   private final AtomicLong sequence = new AtomicLong();
+  private PortfolioId portfolioId;
 
   public Position roll(Position positionToRoll, Money costToClose, int newQuantity,
                        LocalDate newExpiration, int newStrike, Money rolledOpenCost) {
@@ -50,5 +52,13 @@ public class Portfolio {
   public Optional<Position> findById(long id) {
     return stream().filter(position -> position.getId() == id)
                    .findFirst();
+  }
+
+  public void setId(PortfolioId portfolioId) {
+    this.portfolioId = portfolioId;
+  }
+
+  public PortfolioId getId() {
+    return portfolioId;
   }
 }

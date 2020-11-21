@@ -4,6 +4,8 @@ import com.jitterted.tawny.domain.Portfolio;
 import com.jitterted.tawny.domain.Position;
 import com.jitterted.tawny.domain.Pricer;
 import com.jitterted.tawny.domain.UsMoney;
+import com.jitterted.tawny.domain.port.PortfolioId;
+import com.jitterted.tawny.domain.port.PortfolioRepository;
 import org.joda.money.Money;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -25,10 +27,10 @@ public class PortfolioController {
   private final ExpirationsFetcher expirationsFetcher;
 
   @Autowired
-  public PortfolioController(Portfolio portfolio, Pricer pricer, ExpirationsFetcher expirationsFetcher) {
-    this.portfolio = portfolio;
+  public PortfolioController(PortfolioRepository portfolioRepository, Pricer pricer, ExpirationsFetcher fetcher) {
+    this.portfolio = portfolioRepository.findById(new PortfolioId(0L)).get();
     this.pricer = pricer;
-    this.expirationsFetcher = expirationsFetcher;
+    this.expirationsFetcher = fetcher;
   }
 
   @GetMapping("/view")
