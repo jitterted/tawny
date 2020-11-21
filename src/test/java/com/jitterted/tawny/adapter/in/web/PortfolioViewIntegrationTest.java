@@ -4,6 +4,7 @@ import com.jitterted.tawny.domain.Portfolio;
 import com.jitterted.tawny.domain.Position;
 import com.jitterted.tawny.domain.Pricer;
 import com.jitterted.tawny.domain.UsMoney;
+import com.jitterted.tawny.domain.port.PortfolioRepository;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +18,7 @@ import java.util.Collection;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.anyLong;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
@@ -33,7 +34,7 @@ public class PortfolioViewIntegrationTest {
   MockMvc mockMvc;
 
   @MockBean
-  Portfolio portfolio;
+  PortfolioRepository fakePortfolioRepository;
 
   @MockBean
   Pricer pricer;
@@ -43,6 +44,9 @@ public class PortfolioViewIntegrationTest {
 
   @Test
   public void givenNewPortfolioViewModelContainsEmptyPositionList() throws Exception {
+    Portfolio portfolio = new Portfolio();
+    given(fakePortfolioRepository.findById(any())).willReturn(Optional.of(portfolio));
+
     MvcResult mvcResult = mockMvc.perform(get("/view"))
                                  .andExpect(status().isOk())
                                  .andExpect(view().name("view"))
@@ -71,8 +75,9 @@ public class PortfolioViewIntegrationTest {
 
   @Test
   public void rollPositionPageShowsForm() throws Exception {
-    Position position = new Portfolio().openPosition("", "", 0, LocalDate.now(), 0, UsMoney.zero());
-    given(portfolio.findById(anyLong())).willReturn(Optional.of(position));
+    Portfolio portfolio = new Portfolio();
+    Position position = portfolio.openPosition("", "", 0, LocalDate.now(), 0, UsMoney.zero());
+    given(fakePortfolioRepository.findById(any())).willReturn(Optional.of(portfolio));
 
     MvcResult mvcResult = mockMvc.perform(get("/roll-position/" + position.getId()))
                                  .andExpect(status().isOk())

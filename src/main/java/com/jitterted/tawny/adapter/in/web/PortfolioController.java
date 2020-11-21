@@ -22,24 +22,31 @@ import java.util.stream.Collectors;
 @Controller
 public class PortfolioController {
 
-  private final Portfolio portfolio;
+  private final PortfolioRepository portfolioRepository;
   private final Pricer pricer;
   private final ExpirationsFetcher expirationsFetcher;
 
   @Autowired
   public PortfolioController(PortfolioRepository portfolioRepository, Pricer pricer, ExpirationsFetcher fetcher) {
-    this.portfolio = portfolioRepository.findById(new PortfolioId(0L)).get();
+    this.portfolioRepository = portfolioRepository;
     this.pricer = pricer;
     this.expirationsFetcher = fetcher;
   }
 
   @GetMapping("/view")
   public String viewPortfolio(Model model) {
+    Portfolio portfolio = defaultPortfolio();
     List<PositionView> views = portfolio.stream()
                                         .map(this::enrichWithLastPrice)
                                         .collect(Collectors.toList());
     model.addAttribute("positions", views);
     return "view";
+  }
+
+  private Portfolio defaultPortfolio() {
+    Portfolio portfolio = portfolioRepository.findById(new PortfolioId(0L))
+                                             .orElseThrow(IllegalStateException::new);
+    return portfolio;
   }
 
   @GetMapping("/open-position")
@@ -55,6 +62,7 @@ public class PortfolioController {
 
   @PostMapping("/open-position")
   public String handleOpenPosition(@Valid OpenPositionForm openPositionForm) {
+    Portfolio portfolio = defaultPortfolio();
     portfolio.openPosition(
         openPositionForm.getUnderlyingSymbol(),
         openPositionForm.getOptionType(),
@@ -67,6 +75,7 @@ public class PortfolioController {
 
   @GetMapping("/roll-position/{id}")
   public String rollPosition(Model model, @PathVariable String id) {
+    Portfolio portfolio = defaultPortfolio();
     Position position = portfolio.findById(Long.parseLong(id)).orElseThrow();
     model.addAttribute("contract", ContractView.from(position.contract()));
     model.addAttribute("rollPositionForm", RollPositionForm.from(position));
@@ -76,6 +85,7 @@ public class PortfolioController {
 
   @PostMapping("/roll-position")
   public String handleRollPosition(@Valid RollPositionForm rollPositionForm) {
+    Portfolio portfolio = defaultPortfolio();
     Position position = portfolio.findById(rollPositionForm.getId()).orElseThrow();
     portfolio.roll(position,
                    UsMoney.$(rollPositionForm.getCloseCost()),
