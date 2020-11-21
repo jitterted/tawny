@@ -1,8 +1,5 @@
 package com.jitterted.tawny.adapter.in.web;
 
-import com.jitterted.tawny.domain.Position;
-import com.jitterted.tawny.domain.UsMoney;
-import org.jetbrains.annotations.NotNull;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.validation.constraints.FutureOrPresent;
@@ -17,7 +14,6 @@ public class OpenPositionForm {
   @Pattern(regexp = "[CPcp]")
   private String optionType;
 
-  @Min(1)
   private int quantity;
 
   @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
@@ -28,16 +24,6 @@ public class OpenPositionForm {
   private int strikePrice;
 
   private BigDecimal unitCost;
-
-  @NotNull
-  static Position toPosition(OpenPositionForm openPositionForm) {
-    return new Position(openPositionForm.getUnderlyingSymbol(),
-                        openPositionForm.getOptionType(),
-                        openPositionForm.getQuantity(),
-                        openPositionForm.getExpiration(),
-                        openPositionForm.getStrikePrice(),
-                        UsMoney.$(openPositionForm.getUnitCost()));
-  }
 
   public String getUnderlyingSymbol() {
     return underlyingSymbol;

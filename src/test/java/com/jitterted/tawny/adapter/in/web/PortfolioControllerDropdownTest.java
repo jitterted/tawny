@@ -15,7 +15,8 @@ class PortfolioControllerDropdownTest {
   @Test
   public void dropdownListIsPopulatedWithListOfExpirationDates() throws Exception {
     PortfolioController portfolioController =
-        new PortfolioController(new Portfolio(), new DummyPricer(), new StubExpirationsFetcher(Collections.singletonList(DateConstants.OCT_16_2020)));
+        new PortfolioController(new Portfolio(), new DummyPricer(),
+                                new StubExpirationsFetcher(Collections.singletonList(DateConstants.OCT_16_2020)));
 
     List<LocalDate> expirations = portfolioController.expirationsFor("AMD");
 

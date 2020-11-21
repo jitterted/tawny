@@ -16,6 +16,8 @@
       th:action="@{/roll-position}"
       th:object="${rollPositionForm}">
 
+  <p>Closing Price: <input type="text" th:field="*{closeCost}"></p>
+
   <p>Qty: <input type="number" th:field="*{quantity}"></p>
 
   <p>Expiration:
@@ -28,8 +30,9 @@
   </p>
   
   <p>Strike: <input type="text" th:field="*{strikePrice}"></p>
-  <p>Closing Price: <input type="text" th:field="*{closeCost}"></p>
   <p>Opening Price: <input type="text" th:field="*{openCost}"></p>
+
+  <input type="hidden" th:field="*{id}">
 
   <button type="submit">Submit</button>
 </form>

@@ -72,6 +72,7 @@ public class PortfolioViewIntegrationTest {
   @Test
   public void rollPositionPageShowsForm() throws Exception {
     Position position = new Position("", "", 0, LocalDate.now(), 0, UsMoney.zero());
+    position.setId(0L);
     given(portfolio.findById(anyLong())).willReturn(Optional.of(position));
 
     MvcResult mvcResult = mockMvc.perform(get("/roll-position/0"))

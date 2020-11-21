@@ -5,11 +5,14 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.validation.constraints.FutureOrPresent;
 import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
 public class RollPositionForm {
-  @Min(1)
+  @NotNull
+  private long id;
+
   private int quantity;
 
   @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
@@ -23,8 +26,14 @@ public class RollPositionForm {
 
   private BigDecimal openCost;
 
-  public RollPositionForm(Position position) {
-    quantity = position.quantity();
+  public RollPositionForm() {
+  }
+
+  public static RollPositionForm from(Position position) {
+    RollPositionForm rollPositionForm = new RollPositionForm();
+    rollPositionForm.setId(position.getId());
+    rollPositionForm.setQuantity(position.quantity());
+    return rollPositionForm;
   }
 
   public int getQuantity() {
@@ -66,4 +75,13 @@ public class RollPositionForm {
   public void setOpenCost(BigDecimal openCost) {
     this.openCost = openCost;
   }
+
+  public long getId() {
+    return id;
+  }
+
+  public void setId(long id) {
+    this.id = id;
+  }
+
 }

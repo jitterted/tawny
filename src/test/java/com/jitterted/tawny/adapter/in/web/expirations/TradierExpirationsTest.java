@@ -52,13 +52,11 @@ class TradierExpirationsTest {
                                        .collect(Collectors.toList());
 
     assertThat(dates)
-        .contains(LocalDate.of(2020, 11, 20), LocalDate.of(2023, 1, 20));
+        .contains(LocalDate.of(2021, 1, 15), LocalDate.of(2023, 1, 20));
 
-    assertThat(expirations.get(0).getDate())
-        .isEqualTo("2020-10-23");
     assertThat(expirations.get(0).getStrikes().getStrike())
         .usingElementComparator(BigDecimal::compareTo)
-        .contains(BigDecimal.valueOf(45), BigDecimal.valueOf(50), BigDecimal.valueOf(74));
+        .contains(BigDecimal.valueOf(75), BigDecimal.valueOf(80), BigDecimal.valueOf(85));
 
     System.out.println(expirations);
   }

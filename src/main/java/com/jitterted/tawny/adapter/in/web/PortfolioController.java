@@ -3,6 +3,7 @@ package com.jitterted.tawny.adapter.in.web;
 import com.jitterted.tawny.domain.Portfolio;
 import com.jitterted.tawny.domain.Position;
 import com.jitterted.tawny.domain.Pricer;
+import com.jitterted.tawny.domain.UsMoney;
 import org.joda.money.Money;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -52,8 +53,13 @@ public class PortfolioController {
 
   @PostMapping("/open-position")
   public String handleOpenPosition(@Valid OpenPositionForm openPositionForm) {
-    Position position = OpenPositionForm.toPosition(openPositionForm);
-    portfolio.add(position);
+    portfolio.openPosition(
+        openPositionForm.getUnderlyingSymbol(),
+        openPositionForm.getOptionType(),
+        openPositionForm.getQuantity(),
+        openPositionForm.getExpiration(),
+        openPositionForm.getStrikePrice(),
+        UsMoney.$(openPositionForm.getUnitCost()));
     return "redirect:/view";
   }
 
@@ -61,9 +67,21 @@ public class PortfolioController {
   public String rollPosition(Model model, @PathVariable String id) {
     Position position = portfolio.findById(Long.parseLong(id)).orElseThrow();
     model.addAttribute("contract", ContractView.from(position.contract()));
-    model.addAttribute("rollPositionForm", new RollPositionForm(position));
+    model.addAttribute("rollPositionForm", RollPositionForm.from(position));
     addExpirationsTo(model);
     return "roll-position";
+  }
+
+  @PostMapping("/roll-position")
+  public String handleRollPosition(@Valid RollPositionForm rollPositionForm) {
+    Position position = portfolio.findById(rollPositionForm.getId()).orElseThrow();
+    portfolio.roll(position,
+                   UsMoney.$(rollPositionForm.getCloseCost()),
+                   rollPositionForm.getQuantity(),
+                   rollPositionForm.getExpiration(),
+                   rollPositionForm.getStrikePrice(),
+                   UsMoney.$(rollPositionForm.getOpenCost()));
+    return "redirect:/view";
   }
 
   private PositionView enrichWithLastPrice(Position position) {

@@ -2,9 +2,13 @@
 
 [ ] Make Portfolio the Aggregate Root 
 
-   [ ] Move "roll" method over to Portfolio, so it can keep track of the new position as well
+   [ ] Replace new Position() with portfolio.openPosition()
+
+   [X] Move "roll" method over to Portfolio, so it can keep track of the new position as well
 
    [X] Move factory creation method of Position to Portfolio
+
+[ ] For view: show underlying transactions leading to the current cost of a rolled position 
 
 [ ] Real persistence!
 
