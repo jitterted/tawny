@@ -26,8 +26,8 @@ class PortfolioControllerTest {
 
   @Test
   public void givenSingleOpenPositionViewReturnsPosition() throws Exception {
-    Position aaplPosition = new Position("AAPL", "C", 1, DateConstants.OCT_16_2020, 125, UsMoney.$(6));
-    Portfolio portfolio = Portfolio.of(aaplPosition);
+    Portfolio portfolio = new Portfolio();
+    portfolio.openPosition("AAPL", "C", 1, DateConstants.OCT_16_2020, 125, UsMoney.$(6));
     PortfolioController portfolioController = new PortfolioController(portfolio, STUB_0_00_PRICER, npeDummyExpirationsFetcher);
 
     Collection<PositionView> positions = positionsFromViewModel(portfolioController);
@@ -41,9 +41,9 @@ class PortfolioControllerTest {
 
   @Test
   public void givenSingleClosedPositionViewHasRollButtonDisabled() throws Exception {
-    Position position = new Position("AAPL", "C", 1, DateConstants.OCT_16_2020, 125, UsMoney.$(6));
+    Portfolio portfolio = new Portfolio();
+    Position position = portfolio.openPosition("AAPL", "C", 1, DateConstants.OCT_16_2020, 125, UsMoney.$(6));
     position.close(UsMoney.$(8));
-    Portfolio portfolio = Portfolio.of(position);
     PortfolioController portfolioController = new PortfolioController(portfolio, STUB_0_00_PRICER, npeDummyExpirationsFetcher);
 
     List<PositionView> positions = positionsFromViewModel(portfolioController);
@@ -54,9 +54,9 @@ class PortfolioControllerTest {
 
   @Test
   public void givenMultipleOpenPositionsViewReturnsAllPositions() throws Exception {
-    Position aaplPosition = new Position("AAPL", "C", 1, DateConstants.OCT_16_2020, 125, UsMoney.$(6));
-    Position amdPosition = new Position("AMD", "C", 10, DateConstants.OCT_16_2020, 80, UsMoney.$(2));
-    Portfolio portfolio = Portfolio.of(aaplPosition, amdPosition);
+    Portfolio portfolio = new Portfolio();
+    portfolio.openPosition("AAPL", "C", 1, DateConstants.OCT_16_2020, 125, UsMoney.$(6));
+    portfolio.openPosition("AMD", "C", 10, DateConstants.OCT_16_2020, 80, UsMoney.$(2));
     PortfolioController portfolioController = new PortfolioController(portfolio, STUB_0_00_PRICER, npeDummyExpirationsFetcher);
 
     Collection<PositionView> positions = positionsFromViewModel(portfolioController);

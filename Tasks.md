@@ -1,16 +1,10 @@
 ## To Do
 
-[ ] Make Portfolio the Aggregate Root 
-
-   [ ] Replace new Position() with portfolio.openPosition()
-
-   [X] Move "roll" method over to Portfolio, so it can keep track of the new position as well
-
-   [X] Move factory creation method of Position to Portfolio
-
-[ ] For view: show underlying transactions leading to the current cost of a rolled position 
-
 [ ] Real persistence!
+
+   [ ] Portfolio needs to be stored in a Portfolio repository
+
+[ ] For view: show underlying transactions leading to the current cost of a rolled position
 
 [ ] Show gain(loss) based on the current price
 
@@ -75,6 +69,14 @@
 
 ## Completed
 
+
+[X] Make Portfolio the Aggregate Root
+
+[X] Replace new Position() with portfolio.openPosition()
+
+[X] Move "roll" method over to Portfolio, so it can keep track of the new position as well
+
+[X] Move factory creation method of Position to Portfolio
 [X] Integration Test (mockmvc) to check for the endpoint 
 [X] Test the view method in the controller for the data in the model
 [X] Create Thymeleaf template to display the view

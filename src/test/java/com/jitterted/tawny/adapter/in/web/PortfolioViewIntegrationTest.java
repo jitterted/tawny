@@ -71,11 +71,10 @@ public class PortfolioViewIntegrationTest {
 
   @Test
   public void rollPositionPageShowsForm() throws Exception {
-    Position position = new Position("", "", 0, LocalDate.now(), 0, UsMoney.zero());
-    position.setId(0L);
+    Position position = new Portfolio().openPosition("", "", 0, LocalDate.now(), 0, UsMoney.zero());
     given(portfolio.findById(anyLong())).willReturn(Optional.of(position));
 
-    MvcResult mvcResult = mockMvc.perform(get("/roll-position/0"))
+    MvcResult mvcResult = mockMvc.perform(get("/roll-position/" + position.getId()))
                                  .andExpect(status().isOk())
                                  .andExpect(view().name("roll-position"))
                                  .andExpect(model().attributeExists("rollPositionForm"))

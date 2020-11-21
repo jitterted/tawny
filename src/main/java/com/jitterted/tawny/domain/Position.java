@@ -17,7 +17,7 @@ public class Position {
   private final Money unitCost;
   private Money closeCost;
 
-  public Position(String underlyingSymbol,
+  Position(String underlyingSymbol,
                   String contractType,
                   int quantity,
                   LocalDate expirationDate,
