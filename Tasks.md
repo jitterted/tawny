@@ -1,12 +1,12 @@
 ## To Do
 
-[ ] Real persistence!
-
-   [ ] Portfolio needs to be stored in a Portfolio repository
-
 [ ] For view: show underlying transactions leading to the current cost of a rolled position
 
 [ ] Show gain(loss) based on the current price
+
+[ ] Real persistence!
+
+   [ ] Portfolio needs to be stored in a Portfolio repository
 
 [ ] Line up/right-align numbers on the view page (and use the number font as well)
 
